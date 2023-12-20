@@ -7,6 +7,11 @@
 	<uni-badge size="small" :text="100" absolute="rightBottom" type="primary">
 		<button type="default">右下</button>
 	</uni-badge>
+      <uv-button type="primary" text="确定"></uv-button>
+      <uv-icon name="photo" size="30" color="#909399"></uv-icon>
+      <uv-icon name="lock" size="30" color="#909399"></uv-icon>
+
+	xcc
   </view>
 </template>
 

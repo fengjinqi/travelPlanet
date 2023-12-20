@@ -1,5 +1,11 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	 "easycom": {
+			"autoscan": true,
+			"custom": {
+				"^uv-(.*)": "@climblee/uv-ui/components/uv-$1/uv-$1.vue"
+			}
+		},
+	"pages": [
 		{
 			"path": "pages/index/index",
 			"style": {
@@ -8,7 +14,7 @@
 		},
 		{
 			"path" : "pages/user/user",
-			"style" : 
+			"style" :
 			{
 				"navigationBarTitleText" : "",
 				"enablePullDownRefresh" : false
@@ -23,7 +29,7 @@
 	},
 	"tabBar": {
 		"list": [
-		
+
 			{
 				"text": "首页",
 				"pagePath": "pages/index/index"
