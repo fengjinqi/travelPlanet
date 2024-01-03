@@ -1,5 +1,5 @@
 "use strict";
-var _e, _f, _g, _h, _i, _j;
+var _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D;
 const _export_sfc = (sfc, props2) => {
   const target = sfc.__vccOpts || sfc;
   for (const [key, val] of props2) {
@@ -169,6 +169,7 @@ const ON_ERROR = "onError";
 const ON_THEME_CHANGE = "onThemeChange";
 const ON_PAGE_NOT_FOUND = "onPageNotFound";
 const ON_UNHANDLE_REJECTION = "onUnhandledRejection";
+const ON_EXIT = "onExit";
 const ON_LOAD = "onLoad";
 const ON_READY = "onReady";
 const ON_UNLOAD = "onUnload";
@@ -285,6 +286,7 @@ const UniLifecycleHooks = [
   ON_THEME_CHANGE,
   ON_PAGE_NOT_FOUND,
   ON_UNHANDLE_REJECTION,
+  ON_EXIT,
   ON_INIT,
   ON_LOAD,
   ON_READY,
@@ -1267,8 +1269,8 @@ function populateParameters(fromRes, toRes) {
     appVersion: "1.0.0",
     appVersionCode: "100",
     appLanguage: getAppLanguage(hostLanguage),
-    uniCompileVersion: "3.8.12",
-    uniRuntimeVersion: "3.8.12",
+    uniCompileVersion: "3.99",
+    uniRuntimeVersion: "3.99",
     uniPlatform: "mp-weixin",
     deviceBrand,
     deviceModel: model,
@@ -1306,9 +1308,9 @@ function getGetDeviceType(fromRes, model) {
     const deviceTypeMapsKeys = Object.keys(deviceTypeMaps);
     const _model = model.toLocaleLowerCase();
     for (let index2 = 0; index2 < deviceTypeMapsKeys.length; index2++) {
-      const _m = deviceTypeMapsKeys[index2];
-      if (_model.indexOf(_m) !== -1) {
-        deviceType = deviceTypeMaps[_m];
+      const _m2 = deviceTypeMapsKeys[index2];
+      if (_model.indexOf(_m2) !== -1) {
+        deviceType = deviceTypeMaps[_m2];
         break;
       }
     }
@@ -5716,6 +5718,14 @@ function applyOptions$2(options, instance, publicThis) {
 function set(target, key, val) {
   return target[key] = val;
 }
+function $callMethod(method, ...args) {
+  const fn = this[method];
+  if (fn) {
+    return fn(...args);
+  }
+  console.error(`method ${method} not found`);
+  return null;
+}
 function createErrorHandler(app) {
   return function errorHandler(err, instance, _info) {
     if (!instance) {
@@ -5814,6 +5824,7 @@ function initApp(app) {
   {
     globalProperties.$set = set;
     globalProperties.$applyOptions = applyOptions$2;
+    globalProperties.$callMethod = $callMethod;
   }
   {
     index$1.invokeCreateVueAppHook(app);
@@ -6002,6 +6013,10 @@ function stringify(styles) {
   }
   return ret;
 }
+function setRef(ref2, id, opts = {}) {
+  const { $templateRefs } = getCurrentInstance();
+  $templateRefs.push({ i: id, r: ref2, k: opts.k, f: opts.f });
+}
 const o = (value, key) => vOn(value, key);
 const f = (source, renderItem) => vFor(source, renderItem);
 const s = (value) => stringifyStyle(value);
@@ -6009,6 +6024,7 @@ const e = (target, ...sources) => extend(target, ...sources);
 const n = (value) => normalizeClass(value);
 const t = (val) => toDisplayString(val);
 const p = (props2) => renderProps(props2);
+const sr = (ref2, id, opts) => setRef(ref2, id, opts);
 function createApp$1(rootComponent, rootProps = null) {
   rootComponent && (rootComponent.mpType = "app");
   return createVueApp(rootComponent, rootProps).use(plugin);
@@ -6204,6 +6220,12 @@ function parseApp(instance, parseAppOptions) {
       instance.$callHook(ON_LAUNCH, options);
     }
   };
+  const { onError } = internalInstance;
+  if (onError) {
+    internalInstance.appContext.config.errorHandler = (err) => {
+      instance.$callHook(ON_ERROR, err);
+    };
+  }
   initLocale(instance);
   const vueOptions = instance.$.type;
   initHooks(appOptions, HOOKS);
@@ -6838,7 +6860,7 @@ const createHook = (lifecycle) => (hook, target = getCurrentInstance()) => {
 const onShow = /* @__PURE__ */ createHook(ON_SHOW);
 const onHide = /* @__PURE__ */ createHook(ON_HIDE);
 const onLaunch = /* @__PURE__ */ createHook(ON_LAUNCH);
-const { toString } = Object.prototype;
+var toString = Object.prototype.toString;
 function isArray(val) {
   return toString.call(val) === "[object Array]";
 }
@@ -6859,11 +6881,11 @@ function forEach(obj, fn) {
     obj = [obj];
   }
   if (isArray(obj)) {
-    for (let i = 0, l = obj.length; i < l; i++) {
+    for (var i = 0, l = obj.length; i < l; i++) {
       fn.call(null, obj[i], i, obj);
     }
   } else {
-    for (const key in obj) {
+    for (var key in obj) {
       if (Object.prototype.hasOwnProperty.call(obj, key)) {
         fn.call(null, obj[key], key, obj);
       }
@@ -6874,7 +6896,7 @@ function isPlainObject(obj) {
   return Object.prototype.toString.call(obj) === "[object Object]";
 }
 function deepMerge$1() {
-  const result = {};
+  let result = {};
   function assignValue(val, key) {
     if (typeof result[key] === "object" && typeof val === "object") {
       result[key] = deepMerge$1(result[key], val);
@@ -6895,37 +6917,39 @@ function isUndefined(val) {
 function encode(val) {
   return encodeURIComponent(val).replace(/%40/gi, "@").replace(/%3A/gi, ":").replace(/%24/g, "$").replace(/%2C/gi, ",").replace(/%20/g, "+").replace(/%5B/gi, "[").replace(/%5D/gi, "]");
 }
-function buildURL(url2, params) {
+function buildURL(url2, params, paramsSerializer) {
   if (!params) {
     return url2;
   }
-  let serializedParams;
-  if (isURLSearchParams(params)) {
+  var serializedParams;
+  if (paramsSerializer) {
+    serializedParams = paramsSerializer(params);
+  } else if (isURLSearchParams(params)) {
     serializedParams = params.toString();
   } else {
-    const parts = [];
-    forEach(params, (val, key) => {
+    var parts = [];
+    forEach(params, function serialize(val, key) {
       if (val === null || typeof val === "undefined") {
         return;
       }
       if (isArray(val)) {
-        key = `${key}[]`;
+        key = key + "[]";
       } else {
         val = [val];
       }
-      forEach(val, (v) => {
+      forEach(val, function parseValue(v) {
         if (isDate(v)) {
           v = v.toISOString();
         } else if (isObject(v)) {
           v = JSON.stringify(v);
         }
-        parts.push(`${encode(key)}=${encode(v)}`);
+        parts.push(encode(key) + "=" + encode(v));
       });
     });
     serializedParams = parts.join("&");
   }
   if (serializedParams) {
-    const hashmarkIndex = url2.indexOf("#");
+    var hashmarkIndex = url2.indexOf("#");
     if (hashmarkIndex !== -1) {
       url2 = url2.slice(0, hashmarkIndex);
     }
@@ -6937,7 +6961,7 @@ function isAbsoluteURL(url2) {
   return /^([a-z][a-z\d+\-.]*:)?\/\//i.test(url2);
 }
 function combineURLs(baseURL, relativeURL) {
-  return relativeURL ? `${baseURL.replace(/\/+$/, "")}/${relativeURL.replace(/^\/+/, "")}` : baseURL;
+  return relativeURL ? baseURL.replace(/\/+$/, "") + "/" + relativeURL.replace(/^\/+/, "") : baseURL;
 }
 function buildFullPath(baseURL, requestedURL) {
   if (baseURL && !isAbsoluteURL(requestedURL)) {
@@ -6946,7 +6970,7 @@ function buildFullPath(baseURL, requestedURL) {
   return requestedURL;
 }
 function settle(resolve2, reject, response) {
-  const { validateStatus: validateStatus2 } = response.config;
+  const validateStatus2 = response.config.validateStatus;
   const status = response.statusCode;
   if (status && (!validateStatus2 || validateStatus2(status))) {
     resolve2(response);
@@ -6955,7 +6979,7 @@ function settle(resolve2, reject, response) {
   }
 }
 const mergeKeys$1 = (keys, config2) => {
-  const config3 = {};
+  let config3 = {};
   keys.forEach((prop) => {
     if (!isUndefined(config2[prop])) {
       config3[prop] = config2[prop];
@@ -6963,52 +6987,77 @@ const mergeKeys$1 = (keys, config2) => {
   });
   return config3;
 };
-const adapter = (config2) => new Promise((resolve2, reject) => {
-  const fullPath = buildURL(buildFullPath(config2.baseURL, config2.url), config2.params);
-  const _config = {
-    url: fullPath,
-    header: config2.header,
-    complete: (response) => {
-      config2.fullPath = fullPath;
-      response.config = config2;
-      try {
-        if (typeof response.data === "string") {
-          response.data = JSON.parse(response.data);
+const adapter = (config2) => {
+  return new Promise((resolve2, reject) => {
+    let fullPath = buildURL(buildFullPath(config2.baseURL, config2.url), config2.params, config2.paramsSerializer);
+    const _config = {
+      url: fullPath,
+      header: config2.header,
+      complete: (response) => {
+        config2.fullPath = fullPath;
+        response.config = config2;
+        response.rawData = response.data;
+        try {
+          let jsonParseHandle = false;
+          const forcedJSONParsingType = typeof config2.forcedJSONParsing;
+          if (forcedJSONParsingType === "boolean") {
+            jsonParseHandle = config2.forcedJSONParsing;
+          } else if (forcedJSONParsingType === "object") {
+            const includesMethod = config2.forcedJSONParsing.include || [];
+            jsonParseHandle = includesMethod.includes(config2.method);
+          }
+          if (jsonParseHandle && typeof response.data === "string") {
+            response.data = JSON.parse(response.data);
+          }
+        } catch (e2) {
         }
-      } catch (e2) {
+        settle(resolve2, reject, response);
       }
-      settle(resolve2, reject, response);
-    }
-  };
-  let requestTask;
-  if (config2.method === "UPLOAD") {
-    delete _config.header["content-type"];
-    delete _config.header["Content-Type"];
-    const otherConfig = {
-      filePath: config2.filePath,
-      name: config2.name
     };
-    const optionalKeys = [
-      "formData"
-    ];
-    requestTask = index$1.uploadFile({ ..._config, ...otherConfig, ...mergeKeys$1(optionalKeys, config2) });
-  } else if (config2.method === "DOWNLOAD") {
-    requestTask = index$1.downloadFile(_config);
-  } else {
-    const optionalKeys = [
-      "data",
-      "method",
-      "timeout",
-      "dataType",
-      "responseType"
-    ];
-    requestTask = index$1.request({ ..._config, ...mergeKeys$1(optionalKeys, config2) });
-  }
-  if (config2.getTask) {
-    config2.getTask(requestTask, config2);
-  }
-});
-const dispatchRequest = (config2) => adapter(config2);
+    let requestTask;
+    if (config2.method === "UPLOAD") {
+      delete _config.header["content-type"];
+      delete _config.header["Content-Type"];
+      let otherConfig = {
+        filePath: config2.filePath,
+        name: config2.name
+      };
+      const optionalKeys = [
+        "timeout",
+        "formData"
+      ];
+      requestTask = index$1.uploadFile({ ..._config, ...otherConfig, ...mergeKeys$1(optionalKeys, config2) });
+    } else if (config2.method === "DOWNLOAD") {
+      const optionalKeys = [
+        "timeout",
+        "filePath"
+      ];
+      requestTask = index$1.downloadFile({ ..._config, ...mergeKeys$1(optionalKeys, config2) });
+    } else {
+      const optionalKeys = [
+        "data",
+        "method",
+        "timeout",
+        "dataType",
+        "responseType",
+        "enableHttp2",
+        "enableQuic",
+        "enableCache",
+        "enableHttpDNS",
+        "httpDNSServiceId",
+        "enableChunked",
+        "forceCellularNetwork"
+      ];
+      requestTask = index$1.request({ ..._config, ...mergeKeys$1(optionalKeys, config2) });
+    }
+    if (config2.getTask) {
+      config2.getTask(requestTask, config2);
+    }
+  });
+};
+const dispatchRequest = (config2) => {
+  return adapter(config2);
+};
 function InterceptorManager() {
   this.handlers = [];
 }
@@ -7032,7 +7081,7 @@ InterceptorManager.prototype.forEach = function forEach2(fn) {
   });
 };
 const mergeKeys = (keys, globalsConfig, config2) => {
-  const config3 = {};
+  let config3 = {};
   keys.forEach((prop) => {
     if (!isUndefined(config2[prop])) {
       config3[prop] = config2[prop];
@@ -7045,23 +7094,28 @@ const mergeKeys = (keys, globalsConfig, config2) => {
 const mergeConfig = (globalsConfig, config2 = {}) => {
   const method = config2.method || globalsConfig.method || "GET";
   let config3 = {
-    baseURL: globalsConfig.baseURL || "",
+    baseURL: config2.baseURL || globalsConfig.baseURL || "",
     method,
     url: config2.url || "",
     params: config2.params || {},
     custom: { ...globalsConfig.custom || {}, ...config2.custom || {} },
     header: deepMerge$1(globalsConfig.header || {}, config2.header || {})
   };
-  const defaultToConfig2Keys = ["getTask", "validateStatus"];
+  const defaultToConfig2Keys = ["getTask", "validateStatus", "paramsSerializer", "forcedJSONParsing"];
   config3 = { ...config3, ...mergeKeys(defaultToConfig2Keys, globalsConfig, config2) };
-  if (method === "DOWNLOAD")
-    ;
-  else if (method === "UPLOAD") {
+  if (method === "DOWNLOAD") {
+    const downloadKeys = [
+      "timeout",
+      "filePath"
+    ];
+    config3 = { ...config3, ...mergeKeys(downloadKeys, globalsConfig, config2) };
+  } else if (method === "UPLOAD") {
     delete config3.header["content-type"];
     delete config3.header["Content-Type"];
     const uploadKeys = [
       "filePath",
       "name",
+      "timeout",
       "formData"
     ];
     uploadKeys.forEach((prop) => {
@@ -7069,12 +7123,22 @@ const mergeConfig = (globalsConfig, config2 = {}) => {
         config3[prop] = config2[prop];
       }
     });
+    if (isUndefined(config3.timeout) && !isUndefined(globalsConfig.timeout)) {
+      config3["timeout"] = globalsConfig["timeout"];
+    }
   } else {
     const defaultsKeys = [
       "data",
       "timeout",
       "dataType",
-      "responseType"
+      "responseType",
+      "enableHttp2",
+      "enableQuic",
+      "enableCache",
+      "enableHttpDNS",
+      "httpDNSServiceId",
+      "enableChunked",
+      "forceCellularNetwork"
     ];
     config3 = { ...config3, ...mergeKeys(defaultsKeys, globalsConfig, config2) };
   }
@@ -7085,12 +7149,15 @@ const defaults = {
   header: {},
   method: "GET",
   dataType: "json",
+  paramsSerializer: null,
   responseType: "text",
   custom: {},
   timeout: 6e4,
   validateStatus: function validateStatus(status) {
     return status >= 200 && status < 300;
-  }
+  },
+  // 是否尝试将响应数据json化
+  forcedJSONParsing: true
 };
 var clone = function() {
   function _instanceof(obj, type) {
@@ -7287,19 +7354,19 @@ var clone = function() {
 }();
 class Request {
   /**
-  * @param {Object} arg - 全局配置
-  * @param {String} arg.baseURL - 全局根路径
-  * @param {Object} arg.header - 全局header
-  * @param {String} arg.method = [GET|POST|PUT|DELETE|CONNECT|HEAD|OPTIONS|TRACE] - 全局默认请求方式
-  * @param {String} arg.dataType = [json] - 全局默认的dataType
-  * @param {String} arg.responseType = [text|arraybuffer] - 全局默认的responseType。支付宝小程序不支持
-  * @param {Object} arg.custom - 全局默认的自定义参数
-  * @param {Number} arg.timeout - 全局默认的超时时间，单位 ms。默认60000。H5(HBuilderX 2.9.9+)、APP(HBuilderX 2.9.9+)、微信小程序（2.10.0）、支付宝小程序
-  * @param {Boolean} arg.sslVerify - 全局默认的是否验证 ssl 证书。默认true.仅App安卓端支持（HBuilderX 2.3.3+）
-  * @param {Boolean} arg.withCredentials - 全局默认的跨域请求时是否携带凭证（cookies）。默认false。仅H5支持（HBuilderX 2.6.15+）
-  * @param {Boolean} arg.firstIpv4 - 全DNS解析时优先使用ipv4。默认false。仅 App-Android 支持 (HBuilderX 2.8.0+)
-  * @param {Function(statusCode):Boolean} arg.validateStatus - 全局默认的自定义验证器。默认statusCode >= 200 && statusCode < 300
-  */
+   * @param {Object} arg - 全局配置
+   * @param {String} arg.baseURL - 全局根路径
+   * @param {Object} arg.header - 全局header
+   * @param {String} arg.method = [GET|POST|PUT|DELETE|CONNECT|HEAD|OPTIONS|TRACE] - 全局默认请求方式
+   * @param {String} arg.dataType = [json] - 全局默认的dataType
+   * @param {String} arg.responseType = [text|arraybuffer] - 全局默认的responseType。支付宝小程序不支持
+   * @param {Object} arg.custom - 全局默认的自定义参数
+   * @param {Number} arg.timeout - 全局默认的超时时间，单位 ms。默认60000。H5(HBuilderX 2.9.9+)、APP(HBuilderX 2.9.9+)、微信小程序（2.10.0）、支付宝小程序
+   * @param {Boolean} arg.sslVerify - 全局默认的是否验证 ssl 证书。默认true.仅App安卓端支持（HBuilderX 2.3.3+）
+   * @param {Boolean} arg.withCredentials - 全局默认的跨域请求时是否携带凭证（cookies）。默认false。仅H5支持（HBuilderX 2.6.15+）
+   * @param {Boolean} arg.firstIpv4 - 全DNS解析时优先使用ipv4。默认false。仅 App-Android 支持 (HBuilderX 2.8.0+)
+   * @param {Function(statusCode):Boolean} arg.validateStatus - 全局默认的自定义验证器。默认statusCode >= 200 && statusCode < 300
+   */
   constructor(arg = {}) {
     if (!isPlainObject(arg)) {
       arg = {};
@@ -7312,20 +7379,20 @@ class Request {
     };
   }
   /**
-  * @Function
-  * @param {Request~setConfigCallback} f - 设置全局默认配置
-  */
+   * @Function
+   * @param {Request~setConfigCallback} f - 设置全局默认配置
+   */
   setConfig(f2) {
     this.config = f2(this.config);
   }
   middleware(config2) {
     config2 = mergeConfig(this.config, config2);
-    const chain = [dispatchRequest, void 0];
+    let chain = [dispatchRequest, void 0];
     let promise2 = Promise.resolve(config2);
-    this.interceptors.request.forEach((interceptor) => {
+    this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
       chain.unshift(interceptor.fulfilled, interceptor.rejected);
     });
-    this.interceptors.response.forEach((interceptor) => {
+    this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
       chain.push(interceptor.fulfilled, interceptor.rejected);
     });
     while (chain.length) {
@@ -7334,16 +7401,16 @@ class Request {
     return promise2;
   }
   /**
-  * @Function
-  * @param {Object} config - 请求配置项
-  * @prop {String} options.url - 请求路径
-  * @prop {Object} options.data - 请求参数
-  * @prop {Object} [options.responseType = config.responseType] [text|arraybuffer] - 响应的数据类型
-  * @prop {Object} [options.dataType = config.dataType] - 如果设为 json，会尝试对返回的数据做一次 JSON.parse
-  * @prop {Object} [options.header = config.header] - 请求header
-  * @prop {Object} [options.method = config.method] - 请求方法
-  * @returns {Promise<unknown>}
-  */
+   * @Function
+   * @param {Object} config - 请求配置项
+   * @prop {String} options.url - 请求路径
+   * @prop {Object} options.data - 请求参数
+   * @prop {Object} [options.responseType = config.responseType] [text|arraybuffer] - 响应的数据类型
+   * @prop {Object} [options.dataType = config.dataType] - 如果设为 json，会尝试对返回的数据做一次 JSON.parse
+   * @prop {Object} [options.header = config.header] - 请求header
+   * @prop {Object} [options.method = config.method] - 请求方法
+   * @returns {Promise<unknown>}
+   */
   request(config2 = {}) {
     return this.middleware(config2);
   }
@@ -7419,6 +7486,9 @@ class Request {
     config2.url = url2;
     config2.method = "DOWNLOAD";
     return this.middleware(config2);
+  }
+  get version() {
+    return "3.1.0";
   }
 }
 function email(value) {
@@ -8624,229 +8694,6 @@ const install = (Vue, options = {}) => {
 const uvUI = {
   install
 };
-const button = {
-  props: {
-    lang: String,
-    sessionFrom: String,
-    sendMessageTitle: String,
-    sendMessagePath: String,
-    sendMessageImg: String,
-    showMessageCard: Boolean,
-    appParameter: String,
-    formType: String,
-    openType: String
-  }
-};
-const openType = {
-  props: {
-    openType: String
-  },
-  emits: ["getphonenumber", "getuserinfo", "error", "opensetting", "launchapp", "contact", "chooseavatar", "addgroupapp", "chooseaddress", "subscribe", "login", "im"],
-  methods: {
-    onGetPhoneNumber(event) {
-      this.$emit("getphonenumber", event.detail);
-    },
-    onGetUserInfo(event) {
-      this.$emit("getuserinfo", event.detail);
-    },
-    onError(event) {
-      this.$emit("error", event.detail);
-    },
-    onOpenSetting(event) {
-      this.$emit("opensetting", event.detail);
-    },
-    onLaunchApp(event) {
-      this.$emit("launchapp", event.detail);
-    },
-    onContact(event) {
-      this.$emit("contact", event.detail);
-    },
-    onChooseavatar(event) {
-      this.$emit("chooseavatar", event.detail);
-    },
-    onAgreeprivacyauthorization(event) {
-      this.$emit("agreeprivacyauthorization", event.detail);
-    },
-    onAddgroupapp(event) {
-      this.$emit("addgroupapp", event.detail);
-    },
-    onChooseaddress(event) {
-      this.$emit("chooseaddress", event.detail);
-    },
-    onSubscribe(event) {
-      this.$emit("subscribe", event.detail);
-    },
-    onLogin(event) {
-      this.$emit("login", event.detail);
-    },
-    onIm(event) {
-      this.$emit("im", event.detail);
-    }
-  }
-};
-const props$2 = {
-  props: {
-    // 是否细边框
-    hairline: {
-      type: Boolean,
-      default: true
-    },
-    // 按钮的预置样式，info，primary，error，warning，success
-    type: {
-      type: String,
-      default: "info"
-    },
-    // 按钮尺寸，large，normal，small，mini
-    size: {
-      type: String,
-      default: "normal"
-    },
-    // 按钮形状，circle（两边为半圆），square（带圆角）
-    shape: {
-      type: String,
-      default: "square"
-    },
-    // 按钮是否镂空
-    plain: {
-      type: Boolean,
-      default: false
-    },
-    // 是否禁止状态
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    // 是否加载中
-    loading: {
-      type: Boolean,
-      default: false
-    },
-    // 加载中提示文字
-    loadingText: {
-      type: [String, Number],
-      default: ""
-    },
-    // 加载状态图标类型
-    loadingMode: {
-      type: String,
-      default: "spinner"
-    },
-    // 加载图标大小
-    loadingSize: {
-      type: [String, Number],
-      default: 14
-    },
-    // 开放能力，具体请看uniapp稳定关于button组件部分说明
-    // https://uniapp.dcloud.io/component/button
-    openType: {
-      type: String,
-      default: ""
-    },
-    // 用于 <form> 组件，点击分别会触发 <form> 组件的 submit/reset 事件
-    // 取值为submit（提交表单），reset（重置表单）
-    formType: {
-      type: String,
-      default: ""
-    },
-    // 打开 APP 时，向 APP 传递的参数，open-type=launchApp时有效
-    // 只微信小程序、QQ小程序有效
-    appParameter: {
-      type: String,
-      default: ""
-    },
-    // 指定是否阻止本节点的祖先节点出现点击态，微信小程序有效
-    hoverStopPropagation: {
-      type: Boolean,
-      default: true
-    },
-    // 指定返回用户信息的语言，zh_CN 简体中文，zh_TW 繁体中文，en 英文。只微信小程序有效
-    lang: {
-      type: String,
-      default: "en"
-    },
-    // 会话来源，open-type="contact"时有效。只微信小程序有效
-    sessionFrom: {
-      type: String,
-      default: ""
-    },
-    // 会话内消息卡片标题，open-type="contact"时有效
-    // 默认当前标题，只微信小程序有效
-    sendMessageTitle: {
-      type: String,
-      default: ""
-    },
-    // 会话内消息卡片点击跳转小程序路径，open-type="contact"时有效
-    // 默认当前分享路径，只微信小程序有效
-    sendMessagePath: {
-      type: String,
-      default: ""
-    },
-    // 会话内消息卡片图片，open-type="contact"时有效
-    // 默认当前页面截图，只微信小程序有效
-    sendMessageImg: {
-      type: String,
-      default: ""
-    },
-    // 是否显示会话内消息卡片，设置此参数为 true，用户进入客服会话会在右下角显示"可能要发送的小程序"提示，
-    // 用户点击后可以快速发送小程序消息，open-type="contact"时有效
-    showMessageCard: {
-      type: Boolean,
-      default: true
-    },
-    // 额外传参参数，用于小程序的data-xxx属性，通过target.dataset.name获取
-    dataName: {
-      type: String,
-      default: ""
-    },
-    // 节流，一定时间内只能触发一次
-    throttleTime: {
-      type: [String, Number],
-      default: 0
-    },
-    // 按住后多久出现点击态，单位毫秒
-    hoverStartTime: {
-      type: [String, Number],
-      default: 0
-    },
-    // 手指松开后点击态保留时间，单位毫秒
-    hoverStayTime: {
-      type: [String, Number],
-      default: 200
-    },
-    // 按钮文字，之所以通过props传入，是因为slot传入的话
-    // nvue中无法控制文字的样式
-    text: {
-      type: [String, Number],
-      default: ""
-    },
-    // 按钮图标
-    icon: {
-      type: String,
-      default: ""
-    },
-    // 按钮图标大小
-    iconSize: {
-      type: [String, Number],
-      default: ""
-    },
-    // 按钮图标颜色
-    iconColor: {
-      type: String,
-      default: "#000000"
-    },
-    // 按钮颜色，支持传入linear-gradient渐变色
-    color: {
-      type: String,
-      default: ""
-    },
-    // 自定义按钮文本样式
-    customTextStyle: {
-      type: [Object, String],
-      default: ""
-    },
-    ...(_f = (_e = index$1.$uv) == null ? void 0 : _e.props) == null ? void 0 : _f.button
-  }
-};
 const icons = {
   "uvicon-level": "e68f",
   "uvicon-checkbox-mark": "e659",
@@ -9007,7 +8854,7 @@ const icons = {
   "uvicon-twitte": "e607",
   "uvicon-twitter-circle-fill": "e6cf"
 };
-const props$1 = {
+const props$d = {
   props: {
     // 图标类名
     name: {
@@ -9094,10 +8941,556 @@ const props$1 = {
       type: Boolean,
       default: false
     },
-    ...(_h = (_g = index$1.$uv) == null ? void 0 : _g.props) == null ? void 0 : _h.icon
+    ...(_f = (_e = index$1.$uv) == null ? void 0 : _e.props) == null ? void 0 : _f.icon
   }
 };
-const props = {
+const props$c = {
+  props: {
+    // 列表数组，元素可为字符串，如为对象可通过keyName指定目标属性名
+    list: {
+      type: Array,
+      default: () => []
+    },
+    // 是否显示面板指示器
+    indicator: {
+      type: Boolean,
+      default: false
+    },
+    // 指示器非激活颜色
+    indicatorActiveColor: {
+      type: String,
+      default: "#fff"
+    },
+    // 指示器的激活颜色
+    indicatorInactiveColor: {
+      type: String,
+      default: "rgba(255, 255, 255, 0.35)"
+    },
+    // 指示器样式，可通过bottom，left，right进行定位
+    indicatorStyle: {
+      type: [String, Object],
+      default: ""
+    },
+    // 指示器模式，line-线型，dot-点型
+    indicatorMode: {
+      type: String,
+      default: "line"
+    },
+    // 是否自动切换
+    autoplay: {
+      type: Boolean,
+      default: true
+    },
+    // 当前所在滑块的 index
+    current: {
+      type: [String, Number],
+      default: 0
+    },
+    // 当前所在滑块的 item-id ，不能与 current 被同时指定
+    currentItemId: {
+      type: String,
+      default: ""
+    },
+    // 滑块自动切换时间间隔
+    interval: {
+      type: [String, Number],
+      default: 3e3
+    },
+    // 滑块切换过程所需时间
+    duration: {
+      type: [String, Number],
+      default: 300
+    },
+    // 播放到末尾后是否重新回到开头
+    circular: {
+      type: Boolean,
+      default: false
+    },
+    // 滑动方向是否为纵向
+    vertical: {
+      type: Boolean,
+      default: false
+    },
+    // 前边距，可用于露出前一项的一小部分，nvue和支付宝不支持
+    previousMargin: {
+      type: [String, Number],
+      default: 0
+    },
+    // 后边距，可用于露出后一项的一小部分，nvue和支付宝不支持
+    nextMargin: {
+      type: [String, Number],
+      default: 0
+    },
+    // 当开启时，会根据滑动速度，连续滑动多屏，支付宝不支持
+    acceleration: {
+      type: Boolean,
+      default: false
+    },
+    // 同时显示的滑块数量，nvue、支付宝小程序不支持
+    displayMultipleItems: {
+      type: Number,
+      default: 1
+    },
+    // 指定swiper切换缓动动画类型，有效值：default、linear、easeInCubic、easeOutCubic、easeInOutCubic
+    // 只对微信小程序有效
+    easingFunction: {
+      type: String,
+      default: "default"
+    },
+    // list数组中指定对象的目标属性名
+    keyName: {
+      type: String,
+      default: "url"
+    },
+    // 图片的裁剪模式
+    imgMode: {
+      type: String,
+      default: "aspectFill"
+    },
+    // 组件高度
+    height: {
+      type: [String, Number],
+      default: 130
+    },
+    // 背景颜色
+    bgColor: {
+      type: String,
+      default: "#f3f4f6"
+    },
+    // 组件圆角，数值或带单位的字符串
+    radius: {
+      type: [String, Number],
+      default: 4
+    },
+    // 是否加载中
+    loading: {
+      type: Boolean,
+      default: false
+    },
+    // 是否显示标题，要求数组对象中有title属性
+    showTitle: {
+      type: Boolean,
+      default: false
+    },
+    // 显示的标题样式
+    titleStyle: {
+      type: [Object, String],
+      default: ""
+    },
+    ...(_h = (_g = index$1.$uv) == null ? void 0 : _g.props) == null ? void 0 : _h.swiper
+  }
+};
+const props$b = {
+  props: {
+    // 是否展示顶部的操作栏
+    showToolbar: {
+      type: Boolean,
+      default: true
+    },
+    // 顶部标题
+    title: {
+      type: String,
+      default: ""
+    },
+    // 弹窗圆角
+    round: {
+      type: [String, Number],
+      default: 0
+    },
+    // 对象数组，设置每一列的数据
+    columns: {
+      type: Array,
+      default: () => []
+    },
+    // 是否显示加载中状态
+    loading: {
+      type: Boolean,
+      default: false
+    },
+    // 各列中，单个选项的高度
+    itemHeight: {
+      type: [String, Number],
+      default: 44
+    },
+    // 取消按钮的文字
+    cancelText: {
+      type: String,
+      default: "取消"
+    },
+    // 确认按钮的文字
+    confirmText: {
+      type: String,
+      default: "确定"
+    },
+    // 取消按钮的颜色
+    cancelColor: {
+      type: String,
+      default: "#909193"
+    },
+    // 确认按钮的颜色
+    confirmColor: {
+      type: String,
+      default: "#3c9cff"
+    },
+    // 文字颜色
+    color: {
+      type: String,
+      default: ""
+    },
+    // 选中文字的颜色
+    activeColor: {
+      type: String,
+      default: ""
+    },
+    // 每列中可见选项的数量
+    visibleItemCount: {
+      type: [String, Number],
+      default: 5
+    },
+    // 选项对象中，需要展示的属性键名
+    keyName: {
+      type: String,
+      default: "text"
+    },
+    // 是否允许点击遮罩关闭选择器
+    closeOnClickOverlay: {
+      type: Boolean,
+      default: true
+    },
+    // 是否允许点击确认关闭选择器
+    closeOnClickConfirm: {
+      type: Boolean,
+      default: true
+    },
+    // 各列的默认索引
+    defaultIndex: {
+      type: Array,
+      default: () => []
+    },
+    // 是否在手指松开时立即触发 change 事件。若不开启则会在滚动动画结束后触发 change 事件，只在微信2.21.1及以上有效
+    immediateChange: {
+      type: Boolean,
+      default: true
+    },
+    ...(_j = (_i = index$1.$uv) == null ? void 0 : _i.props) == null ? void 0 : _j.picker
+  }
+};
+const props$a = {
+  props: {
+    // 图片地址
+    src: {
+      type: String,
+      default: ""
+    },
+    // 裁剪模式
+    mode: {
+      type: String,
+      default: "aspectFill"
+    },
+    // 宽度，单位任意
+    width: {
+      type: [String, Number],
+      default: "300"
+    },
+    // 高度，单位任意
+    height: {
+      type: [String, Number],
+      default: "225"
+    },
+    // 图片形状，circle-圆形，square-方形
+    shape: {
+      type: String,
+      default: "square"
+    },
+    // 圆角，单位任意
+    radius: {
+      type: [String, Number],
+      default: 0
+    },
+    // 是否懒加载，微信小程序、App、百度小程序、字节跳动小程序
+    lazyLoad: {
+      type: Boolean,
+      default: true
+    },
+    // 是否开启observer懒加载，nvue不生效
+    observeLazyLoad: {
+      type: Boolean,
+      default: false
+    },
+    // 开启长按图片显示识别微信小程序码菜单
+    showMenuByLongpress: {
+      type: Boolean,
+      default: true
+    },
+    // 加载中的图标，或者小图片
+    loadingIcon: {
+      type: String,
+      default: "photo"
+    },
+    // 加载失败的图标，或者小图片
+    errorIcon: {
+      type: String,
+      default: "error-circle"
+    },
+    // 是否显示加载中的图标或者自定义的slot
+    showLoading: {
+      type: Boolean,
+      default: true
+    },
+    // 是否显示加载错误的图标或者自定义的slot
+    showError: {
+      type: Boolean,
+      default: true
+    },
+    // 是否需要淡入效果
+    fade: {
+      type: Boolean,
+      default: true
+    },
+    // 只支持网络资源，只对微信小程序有效
+    webp: {
+      type: Boolean,
+      default: false
+    },
+    // 过渡时间，单位ms
+    duration: {
+      type: [String, Number],
+      default: 500
+    },
+    // 背景颜色，用于深色页面加载图片时，为了和背景色融合
+    bgColor: {
+      type: String,
+      default: "#f3f4f6"
+    },
+    // nvue模式下 是否直接显示，在uv-list等cell下面使用就需要设置
+    cellChild: {
+      type: Boolean,
+      default: false
+    },
+    ...(_l = (_k = index$1.$uv) == null ? void 0 : _k.props) == null ? void 0 : _l.image
+  }
+};
+const props$9 = {
+  props: {
+    // 显示的内容，数组
+    text: {
+      type: [Array, String],
+      default: () => []
+    },
+    // 通告滚动模式，row-横向滚动，column-竖向滚动
+    direction: {
+      type: String,
+      default: "row"
+    },
+    // direction = row时，是否使用步进形式滚动
+    step: {
+      type: Boolean,
+      default: false
+    },
+    // 是否显示左侧的音量图标
+    icon: {
+      type: [String, Boolean, null],
+      default: "volume"
+    },
+    // 通告模式，link-显示右箭头，closable-显示右侧关闭图标
+    mode: {
+      type: String,
+      default: ""
+    },
+    // 文字颜色，各图标也会使用文字颜色
+    color: {
+      type: String,
+      default: "#f9ae3d"
+    },
+    // 背景颜色
+    bgColor: {
+      type: String,
+      default: "#fdf6ec"
+    },
+    // 水平滚动时的滚动速度，即每秒滚动多少px(px)，这有利于控制文字无论多少时，都能有一个恒定的速度
+    speed: {
+      type: [String, Number],
+      default: 80
+    },
+    // 字体大小
+    fontSize: {
+      type: [String, Number],
+      default: 14
+    },
+    // 滚动一个周期的时间长，单位ms
+    duration: {
+      type: [String, Number],
+      default: 2e3
+    },
+    // 跳转的页面路径
+    url: {
+      type: String,
+      default: ""
+    },
+    // 页面跳转的类型
+    linkType: {
+      type: String,
+      default: "navigateTo"
+    },
+    // 是否禁止用手滑动切换
+    // 目前HX2.6.11，只支持App 2.5.5+、H5 2.5.5+、支付宝小程序、字节跳动小程序
+    disableTouch: {
+      type: Boolean,
+      default: true
+    },
+    // 是否禁止滚动，仅`direction="column"生效`
+    disableScroll: {
+      type: Boolean,
+      default: false
+    },
+    ...(_n = (_m = index$1.$uv) == null ? void 0 : _m.props) == null ? void 0 : _n.noticeBar
+  }
+};
+const props$8 = {
+  props: {
+    // 是否显示圆点
+    isDot: {
+      type: Boolean,
+      default: false
+    },
+    // 显示的内容
+    value: {
+      type: [Number, String],
+      default: ""
+    },
+    // 是否显示
+    show: {
+      type: Boolean,
+      default: true
+    },
+    // 最大值，超过最大值会显示 '{max}+'
+    max: {
+      type: [Number, String],
+      default: 999
+    },
+    // 主题类型，error|warning|success|primary
+    type: {
+      type: [String, void 0, null],
+      default: "error"
+    },
+    // 当数值为 0 时，是否展示 Badge
+    showZero: {
+      type: Boolean,
+      default: false
+    },
+    // 背景颜色，优先级比type高，如设置，type参数会失效
+    bgColor: {
+      type: [String, null],
+      default: null
+    },
+    // 字体颜色
+    color: {
+      type: [String, null],
+      default: null
+    },
+    // 徽标形状，circle-四角均为圆角，horn-左下角为直角
+    shape: {
+      type: [String, void 0, null],
+      default: "circle"
+    },
+    // 设置数字的显示方式，overflow|ellipsis|limit
+    // overflow会根据max字段判断，超出显示`${max}+`
+    // ellipsis会根据max判断，超出显示`${max}...`
+    // limit会依据1000作为判断条件，超出1000，显示`${value/1000}K`，比如2.2k、3.34w，最多保留2位小数
+    numberType: {
+      type: [String, void 0, null],
+      default: "overflow"
+    },
+    // 设置badge的位置偏移，格式为 [x, y]，也即设置的为top和right的值，absolute为true时有效
+    offset: {
+      type: Array,
+      default: () => []
+    },
+    // 是否反转背景和字体颜色
+    inverted: {
+      type: Boolean,
+      default: false
+    },
+    // 是否绝对定位
+    absolute: {
+      type: Boolean,
+      default: false
+    },
+    ...(_p = (_o = index$1.$uv) == null ? void 0 : _o.props) == null ? void 0 : _p.badge
+  }
+};
+const props$7 = {
+  props: {
+    // 滑块的移动过渡时间，单位ms
+    duration: {
+      type: Number,
+      default: 300
+    },
+    // tabs标签数组
+    list: {
+      type: Array,
+      default: () => []
+    },
+    // 滑块颜色
+    lineColor: {
+      type: String,
+      default: "#3c9cff"
+    },
+    // 菜单选择中时的样式
+    activeStyle: {
+      type: [String, Object],
+      default: () => ({
+        color: "#303133"
+      })
+    },
+    // 菜单非选中时的样式
+    inactiveStyle: {
+      type: [String, Object],
+      default: () => ({
+        color: "#606266"
+      })
+    },
+    // 滑块长度
+    lineWidth: {
+      type: [String, Number],
+      default: 20
+    },
+    // 滑块高度
+    lineHeight: {
+      type: [String, Number],
+      default: 3
+    },
+    // 滑块背景显示大小，当滑块背景设置为图片时使用
+    lineBgSize: {
+      type: String,
+      default: "cover"
+    },
+    // 菜单item的样式
+    itemStyle: {
+      type: [String, Object],
+      default: () => ({
+        height: "44px"
+      })
+    },
+    // 菜单是否可滚动
+    scrollable: {
+      type: Boolean,
+      default: true
+    },
+    // 当前选中标签的索引
+    current: {
+      type: [Number, String],
+      default: 0
+    },
+    // 默认读取的键名
+    keyName: {
+      type: String,
+      default: "name"
+    },
+    ...(_r = (_q = index$1.$uv) == null ? void 0 : _q.props) == null ? void 0 : _r.tabs
+  }
+};
+const props$6 = {
   props: {
     // 是否显示组件
     show: {
@@ -9161,18 +9554,335 @@ const props = {
       type: String,
       default: ""
     },
-    ...(_j = (_i = index$1.$uv) == null ? void 0 : _i.props) == null ? void 0 : _j.loadingIcon
+    ...(_t = (_s = index$1.$uv) == null ? void 0 : _s.props) == null ? void 0 : _t.loadingIcon
+  }
+};
+const props$5 = {
+  props: {
+    // 轮播的长度
+    length: {
+      type: [String, Number],
+      default: 0
+    },
+    // 当前处于活动状态的轮播的索引
+    current: {
+      type: [String, Number],
+      default: 0
+    },
+    // 指示器非激活颜色
+    indicatorActiveColor: {
+      type: String,
+      default: ""
+    },
+    // 指示器的激活颜色
+    indicatorInactiveColor: {
+      type: String,
+      default: ""
+    },
+    // 指示器模式，line-线型，dot-点型
+    indicatorMode: {
+      type: String,
+      default: ""
+    },
+    ...(_v = (_u = index$1.$uv) == null ? void 0 : _u.props) == null ? void 0 : _v.swiperIndicator
+  }
+};
+const props$4 = {
+  props: {
+    // 是否展示工具条
+    show: {
+      type: Boolean,
+      default: true
+    },
+    // 是否显示下边框
+    showBorder: {
+      type: Boolean,
+      default: false
+    },
+    // 取消按钮的文字
+    cancelText: {
+      type: String,
+      default: "取消"
+    },
+    // 确认按钮的文字
+    confirmText: {
+      type: String,
+      default: "确认"
+    },
+    // 取消按钮的颜色
+    cancelColor: {
+      type: String,
+      default: "#909193"
+    },
+    // 确认按钮的颜色
+    confirmColor: {
+      type: String,
+      default: "#3c9cff"
+    },
+    // 标题文字
+    title: {
+      type: String,
+      default: ""
+    },
+    ...(_x = (_w = index$1.$uv) == null ? void 0 : _w.props) == null ? void 0 : _x.toolbar
+  }
+};
+class MPAnimation {
+  constructor(options, _this) {
+    this.options = options;
+    this.animation = index$1.createAnimation({
+      ...options
+    });
+    this.currentStepAnimates = {};
+    this.next = 0;
+    this.$ = _this;
+  }
+  _nvuePushAnimates(type, args) {
+    let aniObj = this.currentStepAnimates[this.next];
+    let styles = {};
+    if (!aniObj) {
+      styles = {
+        styles: {},
+        config: {}
+      };
+    } else {
+      styles = aniObj;
+    }
+    if (animateTypes1.includes(type)) {
+      if (!styles.styles.transform) {
+        styles.styles.transform = "";
+      }
+      let unit = "";
+      if (type === "rotate") {
+        unit = "deg";
+      }
+      styles.styles.transform += `${type}(${args + unit}) `;
+    } else {
+      styles.styles[type] = `${args}`;
+    }
+    this.currentStepAnimates[this.next] = styles;
+  }
+  _animateRun(styles = {}, config2 = {}) {
+    let ref2 = this.$.$refs["ani"].ref;
+    if (!ref2)
+      return;
+    return new Promise((resolve2, reject) => {
+      nvueAnimation.transition(ref2, {
+        styles,
+        ...config2
+      }, (res) => {
+        resolve2();
+      });
+    });
+  }
+  _nvueNextAnimate(animates, step = 0, fn) {
+    let obj = animates[step];
+    if (obj) {
+      let {
+        styles,
+        config: config2
+      } = obj;
+      this._animateRun(styles, config2).then(() => {
+        step += 1;
+        this._nvueNextAnimate(animates, step, fn);
+      });
+    } else {
+      this.currentStepAnimates = {};
+      typeof fn === "function" && fn();
+      this.isEnd = true;
+    }
+  }
+  step(config2 = {}) {
+    this.animation.step(config2);
+    return this;
+  }
+  run(fn) {
+    this.$.animationData = this.animation.export();
+    this.$.timer = setTimeout(() => {
+      typeof fn === "function" && fn();
+    }, this.$.durationTime);
+  }
+}
+const animateTypes1 = [
+  "matrix",
+  "matrix3d",
+  "rotate",
+  "rotate3d",
+  "rotateX",
+  "rotateY",
+  "rotateZ",
+  "scale",
+  "scale3d",
+  "scaleX",
+  "scaleY",
+  "scaleZ",
+  "skew",
+  "skewX",
+  "skewY",
+  "translate",
+  "translate3d",
+  "translateX",
+  "translateY",
+  "translateZ"
+];
+const animateTypes2 = ["opacity", "backgroundColor"];
+const animateTypes3 = ["width", "height", "left", "right", "top", "bottom"];
+animateTypes1.concat(animateTypes2, animateTypes3).forEach((type) => {
+  MPAnimation.prototype[type] = function(...args) {
+    this.animation[type](...args);
+    return this;
+  };
+});
+function createAnimation(option, _this) {
+  if (!_this)
+    return;
+  clearTimeout(_this.timer);
+  return new MPAnimation(option, _this);
+}
+const props$3 = {
+  props: {
+    // 显示的内容，字符串
+    text: {
+      type: [Array],
+      default: ""
+    },
+    // 是否显示左侧的音量图标
+    icon: {
+      type: [String, Boolean, null],
+      default: "volume"
+    },
+    // 通告模式，link-显示右箭头，closable-显示右侧关闭图标
+    mode: {
+      type: String,
+      default: ""
+    },
+    // 文字颜色，各图标也会使用文字颜色
+    color: {
+      type: String,
+      default: "#f9ae3d"
+    },
+    // 背景颜色
+    bgColor: {
+      type: String,
+      default: "#fdf6ec"
+    },
+    // 字体大小，单位px
+    fontSize: {
+      type: [String, Number],
+      default: 14
+    },
+    // 水平滚动时的滚动速度，即每秒滚动多少px(px)，这有利于控制文字无论多少时，都能有一个恒定的速度
+    speed: {
+      type: [String, Number],
+      default: 80
+    },
+    // direction = row时，是否使用步进形式滚动
+    step: {
+      type: Boolean,
+      default: false
+    },
+    // 滚动一个周期的时间长，单位ms
+    duration: {
+      type: [String, Number],
+      default: 1500
+    },
+    // 是否禁止用手滑动切换，仅`direction="column"生效`
+    // 目前HX2.6.11，只支持App 2.5.5+、H5 2.5.5+、支付宝小程序、字节跳动小程序
+    disableTouch: {
+      type: Boolean,
+      default: true
+    },
+    // 是否禁止滚动，仅`direction="column"生效`
+    disableScroll: {
+      type: Boolean,
+      default: false
+    },
+    ...(_z = (_y = index$1.$uv) == null ? void 0 : _y.props) == null ? void 0 : _z.columnNotice
+  }
+};
+const props$2 = {
+  props: {
+    // 显示的内容，字符串
+    text: {
+      type: String,
+      default: ""
+    },
+    // 是否显示左侧的音量图标
+    icon: {
+      type: [String, Boolean, null],
+      default: "volume"
+    },
+    // 通告模式，link-显示右箭头，closable-显示右侧关闭图标
+    mode: {
+      type: String,
+      default: ""
+    },
+    // 文字颜色，各图标也会使用文字颜色
+    color: {
+      type: String,
+      default: "#f9ae3d"
+    },
+    // 背景颜色
+    bgColor: {
+      type: String,
+      default: "#fdf6ec"
+    },
+    // 字体大小，单位px
+    fontSize: {
+      type: [String, Number],
+      default: 14
+    },
+    // 水平滚动时的滚动速度，即每秒滚动多少px(rpx)，这有利于控制文字无论多少时，都能有一个恒定的速度
+    speed: {
+      type: [String, Number],
+      default: 80
+    },
+    ...(_B = (_A = index$1.$uv) == null ? void 0 : _A.props) == null ? void 0 : _B.rowNotice
+  }
+};
+const props$1 = {
+  props: {
+    // 是否显示遮罩
+    show: {
+      type: Boolean,
+      default: false
+    },
+    // 层级z-index
+    zIndex: {
+      type: [String, Number],
+      default: 10070
+    },
+    // 遮罩的过渡时间，单位为ms
+    duration: {
+      type: [String, Number],
+      default: 300
+    },
+    // 不透明度值，当做rgba的第四个参数
+    opacity: {
+      type: [String, Number],
+      default: 0.5
+    },
+    ...(_D = (_C = index$1.$uv) == null ? void 0 : _C.props) == null ? void 0 : _D.overlay
+  }
+};
+const props = {
+  props: {
+    bgColor: {
+      type: String,
+      default: "transparent"
+    }
   }
 };
 exports._export_sfc = _export_sfc;
-exports.button = button;
 exports.colorGradient = colorGradient;
+exports.createAnimation = createAnimation;
 exports.createSSRApp = createSSRApp;
 exports.defineComponent = defineComponent;
 exports.e = e;
 exports.f = f;
 exports.icons = icons;
 exports.index = index$1;
+exports.inject = inject;
 exports.mixin = mixin;
 exports.mpMixin = mpMixin;
 exports.n = n;
@@ -9180,14 +9890,26 @@ exports.o = o;
 exports.onHide = onHide;
 exports.onLaunch = onLaunch;
 exports.onShow = onShow;
-exports.openType = openType;
 exports.p = p;
-exports.props = props$2;
-exports.props$1 = props$1;
-exports.props$2 = props;
+exports.props = props$d;
+exports.props$1 = props$c;
+exports.props$10 = props$3;
+exports.props$11 = props$2;
+exports.props$12 = props$1;
+exports.props$13 = props;
+exports.props$2 = props$b;
+exports.props$3 = props$a;
+exports.props$4 = props$9;
+exports.props$5 = props$7;
+exports.props$6 = props$8;
+exports.props$7 = props$6;
+exports.props$8 = props$5;
+exports.props$9 = props$4;
+exports.provide = provide;
+exports.reactive = reactive;
 exports.ref = ref;
 exports.resolveComponent = resolveComponent;
 exports.s = s;
+exports.sr = sr;
 exports.t = t;
-exports.throttle = throttle;
 exports.uvUI = uvUI;

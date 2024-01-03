@@ -1,23 +1,155 @@
 
-.content {
+page {
+		background-color: #f6f6f6 !important;
+}
+
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.navigation-container.data-v-83a5a03c {
+  width: 100%;
+  z-index: 9999999;
+  top: 0;
+  left: 0;
+  background-color: skyblue;
+}
+.navigation-bar.data-v-83a5a03c {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.navigation-buttons.data-v-83a5a03c {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  box-sizing: border-box;
+  background-color: transparent;
+}
+.navigation-back.data-v-83a5a03c {
+  display: flex;
+  font-size: 15px;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 2px 3px;
+}
+.navigation-back-title.data-v-83a5a03c {
+  margin: 0 2px;
+}
+.statusbarClas.data-v-83a5a03c {
+  background: transparent;
+  color: black;
+}
+.nav-img.data-v-83a5a03c {
+  width: 16rpx;
+}
+.navigation-title.data-v-83a5a03c {
+  position: absolute;
+  left: 104px;
+  right: 104px;
+  text-align: center;
+  font-size: 30rpx;
+  color: #000000;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: 楷体;
+}
+.indicator.data-v-83a5a03c {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.indicator__dot.data-v-83a5a03c {
+  height: 6px;
+  width: 6px;
+  border-radius: 100px;
+  background-color: rgba(255, 255, 255, 0.35);
+  margin: 0 5px;
+  transition: background-color 0.3s;
+}
+.indicator__dot--active.data-v-83a5a03c {
+  background-color: #ffffff;
+}
+.indicator-num.data-v-83a5a03c {
+  padding: 2px 0;
+  background-color: rgba(0, 0, 0, 0.35);
+  border-radius: 100px;
+  width: 35px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.indicator-num__text.data-v-83a5a03c {
+  color: #FFFFFF;
+  font-size: 12px;
+}
+.nav.data-v-83a5a03c {
+  display: flex;
+  justify-content: space-around;
+  border-radius: 5px;
+  padding: 15px;
+  background-color: #fff;
+}
+.nav .nav-main.data-v-83a5a03c {
   display: flex;
   flex-direction: column;
+  width: 25%;
   align-items: center;
-  justify-content: center;
+  font-size: 14px;
 }
-.logo {
-  height: 200rpx;
-  width: 200rpx;
-  margin-top: 200rpx;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 50rpx;
+.volume.data-v-83a5a03c {
+  display: flex;
+  background: #fff;
+  margin-top: 5px;
+  align-items: center;
+  padding: 0 5px;
 }
-.text-area {
+.volume .title.data-v-83a5a03c {
+  margin: 0 3px;
+}
+.tabs-container.data-v-83a5a03c {
   display: flex;
   justify-content: center;
+  overflow-x: auto;
+  margin-bottom: 10px;
+  background-color: #fff;
 }
-.title {
-  font-size: 36rpx;
-  color: #8f8f94;
+.tabs-scroll.data-v-83a5a03c {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}
+.tabs.data-v-83a5a03c {
+  display: flex;
+  gap: 10px;
+  padding: 0 10px;
+}
+.tab.data-v-83a5a03c {
+  padding: 10px 20px;
+  border-radius: 5px;
+  flex-grow: 1;
+  flex: 0 0 auto;
 }

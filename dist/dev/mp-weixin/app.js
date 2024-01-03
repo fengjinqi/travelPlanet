@@ -17,8 +17,26 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     common_vendor.onHide(() => {
       console.log("App Hide");
     });
-    console.log(common_vendor.index.$uv.os(), "434");
-    console.log(common_vendor.index.$uv.sys(), "434");
+    const { statusBarHeight, platform, windowHeight, screenHeight } = common_vendor.index.getSystemInfoSync();
+    const globalData = common_vendor.reactive({
+      statusBarHeight: 0,
+      //状态栏高度
+      menuButtonHeight: 0,
+      // 胶囊按钮高度 一般是32px 如果获取不到就使用32px
+      navigationBarHeight: 0,
+      navigationBarAndStatusBarHeight: 0
+    });
+    const { top, height } = common_vendor.index.getMenuButtonBoundingClientRect();
+    console.log(top, height);
+    globalData.statusBarHeight = statusBarHeight;
+    globalData.menuButtonHeight = height ? height : 32;
+    if (top && top !== 0 && height && height !== 0) {
+      globalData.navigationBarHeight = (top - globalData.statusBarHeight) * 2 + height;
+    } else {
+      globalData.navigationBarHeight = platform === "android" ? 48 : 40;
+    }
+    globalData.navigationBarAndStatusBarHeight = globalData.navigationBarHeight + globalData.statusBarHeight;
+    common_vendor.provide("globalData", globalData);
     return () => {
     };
   }

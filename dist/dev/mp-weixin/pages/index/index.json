@@ -1,7 +1,12 @@
 {
   "navigationBarTitleText": "uni-app",
+  "navigationStyle": "custom",
   "usingComponents": {
-    "uv-button": "../../node-modules/@climblee/uv-ui/components/uv-button/uv-button",
-    "uv-icon": "../../node-modules/@climblee/uv-ui/components/uv-icon/uv-icon"
+    "uv-icon": "../../node-modules/@climblee/uv-ui/components/uv-icon/uv-icon",
+    "uv-swiper": "../../node-modules/@climblee/uv-ui/components/uv-swiper/uv-swiper",
+    "uv-picker": "../../node-modules/@climblee/uv-ui/components/uv-picker/uv-picker",
+    "uv-image": "../../node-modules/@climblee/uv-ui/components/uv-image/uv-image",
+    "uv-notice-bar": "../../node-modules/@climblee/uv-ui/components/uv-notice-bar/uv-notice-bar",
+    "uv-tabs": "../../node-modules/@climblee/uv-ui/components/uv-tabs/uv-tabs"
   }
 }
