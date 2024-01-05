@@ -6,17 +6,15 @@ if (!Array) {
   const _easycom_uv_picker2 = common_vendor.resolveComponent("uv-picker");
   const _easycom_uv_image2 = common_vendor.resolveComponent("uv-image");
   const _easycom_uv_notice_bar2 = common_vendor.resolveComponent("uv-notice-bar");
-  const _easycom_uv_tabs2 = common_vendor.resolveComponent("uv-tabs");
-  (_easycom_uv_icon2 + _easycom_uv_swiper2 + _easycom_uv_picker2 + _easycom_uv_image2 + _easycom_uv_notice_bar2 + _easycom_uv_tabs2)();
+  (_easycom_uv_icon2 + _easycom_uv_swiper2 + _easycom_uv_picker2 + _easycom_uv_image2 + _easycom_uv_notice_bar2)();
 }
 const _easycom_uv_icon = () => "../../node-modules/@climblee/uv-ui/components/uv-icon/uv-icon.js";
 const _easycom_uv_swiper = () => "../../node-modules/@climblee/uv-ui/components/uv-swiper/uv-swiper.js";
 const _easycom_uv_picker = () => "../../node-modules/@climblee/uv-ui/components/uv-picker/uv-picker.js";
 const _easycom_uv_image = () => "../../node-modules/@climblee/uv-ui/components/uv-image/uv-image.js";
 const _easycom_uv_notice_bar = () => "../../node-modules/@climblee/uv-ui/components/uv-notice-bar/uv-notice-bar.js";
-const _easycom_uv_tabs = () => "../../node-modules/@climblee/uv-ui/components/uv-tabs/uv-tabs.js";
 if (!Math) {
-  (_easycom_uv_icon + _easycom_uv_swiper + _easycom_uv_picker + _easycom_uv_image + _easycom_uv_notice_bar + _easycom_uv_tabs)();
+  (_easycom_uv_icon + _easycom_uv_swiper + _easycom_uv_picker + _easycom_uv_image + _easycom_uv_notice_bar)();
 }
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "index",
@@ -77,6 +75,11 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       data.menuButtonHeight = globalData.menuButtonHeight;
       data.navigationBarHeight = globalData.navigationBarHeight;
     });
+    const go = (url) => {
+      common_vendor.index.navigateTo({
+        url
+      });
+    };
     return (_ctx, _cache) => {
       return {
         a: data.statusBarHeight + "px",
@@ -120,11 +123,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           width: "80px",
           height: "80px"
         }),
-        q: common_vendor.p({
-          src: "https://cdn.uviewui.com/uview/album/1.jpg",
-          width: "80px",
-          height: "80px"
-        }),
+        q: common_vendor.o(($event) => go("/pages/creative/creative")),
         r: common_vendor.p({
           src: "https://cdn.uviewui.com/uview/album/1.jpg",
           width: "80px",
@@ -135,30 +134,101 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           width: "80px",
           height: "80px"
         }),
-        t: common_vendor.p({
-          src: "https://cdn.uviewui.com/uview/album/1.jpg",
-          width: "80px",
-          height: "80px"
-        }),
+        t: common_vendor.o(($event) => go("/pages/map/map")),
         v: common_vendor.p({
-          src: "https://cdn.uviewui.com/uview/album/1.jpg",
-          width: "80px",
-          height: "80px"
-        }),
-        w: common_vendor.p({
           name: "volume",
           size: "24"
         }),
-        x: common_vendor.p({
+        w: common_vendor.p({
           bgColor: "#fff",
           color: "#333",
           icon: false,
           text: data.text,
           direction: "column"
         }),
+        x: common_vendor.p({
+          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          radius: "5",
+          width: "100%",
+          height: "80px"
+        }),
         y: common_vendor.p({
-          list: data.list1,
-          scrollable: false
+          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          radius: "5",
+          width: "100%",
+          height: "80px"
+        }),
+        z: common_vendor.p({
+          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          radius: "5",
+          width: "100%",
+          height: "80px"
+        }),
+        A: common_vendor.p({
+          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          radius: "5",
+          width: "100%",
+          height: "100px"
+        }),
+        B: common_vendor.p({
+          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          radius: "5",
+          width: "100%",
+          height: "100px"
+        }),
+        C: common_vendor.p({
+          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          radius: "5",
+          width: "100%",
+          height: "100px"
+        }),
+        D: common_vendor.p({
+          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          radius: "5",
+          width: "100%",
+          height: "100px"
+        }),
+        E: common_vendor.p({
+          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          radius: "5",
+          width: "100%",
+          height: "100px"
+        }),
+        F: common_vendor.p({
+          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          radius: "5",
+          width: "100%",
+          height: "100px"
+        }),
+        G: common_vendor.p({
+          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          radius: "5",
+          width: "100%",
+          height: "100px"
+        }),
+        H: common_vendor.p({
+          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          radius: "5",
+          width: "100%",
+          height: "100px"
+        }),
+        I: common_vendor.p({
+          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          radius: "5",
+          width: "100%",
+          height: "100px"
+        }),
+        J: common_vendor.p({
+          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          radius: "5",
+          width: "100%",
+          height: "100px"
+        }),
+        K: common_vendor.p({
+          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          radius: "5",
+          width: "100%",
+          height: "100px"
         })
       };
     };

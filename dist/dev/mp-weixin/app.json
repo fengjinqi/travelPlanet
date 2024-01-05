@@ -1,7 +1,9 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/user/user"
+    "pages/user/user",
+    "pages/creative/creative",
+    "pages/map/map"
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -20,6 +22,11 @@
         "pagePath": "pages/user/user"
       }
     ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "获取用户位置信息"
+    }
   },
   "usingComponents": {}
 }

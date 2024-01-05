@@ -32,37 +32,294 @@
 		<view class="tabs-container">
 			<view class="tabs-scroll">
 				<view class="tabs">
-					<view class="tab"><uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" width="80px"
+					<view class="tab" @click="go('/pages/creative/creative')"><uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" width="80px"
 							height="80px"></uv-image>
 						文创纪念</view>
 					<view class="tab"><uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" width="80px"
 							height="80px"></uv-image>
 						在线拍卖</view>
-					<view class="tab"><uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" width="80px"
+					<view class="tab" @click="go('/pages/map/map')"><uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" width="80px"
 							height="80px"></uv-image>
 						文旅打卡游</view>
-					<view class="tab"><uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" width="80px"
-							height="80px"></uv-image>
-						文创纪念</view>
-					<view class="tab"><uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" width="80px"
-							height="80px"></uv-image>
-						在线拍卖</view>
-					<view class="tab"><uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" width="80px"
-							height="80px"></uv-image>
-						文旅打卡游</view>
+
 
 					<!-- Add more tabs here if needed -->
 				</view>
 			</view>
 		</view>
-
-
 		<view class="volume">
 			<uv-icon name="volume" size="24"></uv-icon>
 			<text class="title">公告 |</text> <uv-notice-bar bgColor='#fff' color="#333" :icon='false' :text="data.text"
 				direction="column"></uv-notice-bar>
 		</view>
-<uv-tabs :list="data.list1"  :scrollable='false'></uv-tabs>
+
+
+		<view class="showcase">
+			<view class="showcase-list">
+				<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="100%"
+					height="80px"></uv-image>
+			</view>
+			<view class="showcase-flex">
+				<view class="showcase-list">
+					<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="100%"
+						height="80px"></uv-image>
+				</view>
+				<view class="showcase-list">
+					<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="100%"
+						height="80px"></uv-image>
+				</view>
+			</view>
+		</view>
+
+		<view class="recommend">
+			<view class="recommend-title">
+				精选推荐
+			</view>
+			<view class="recommends">
+				<view class="recommends-list">
+					<view class="recommends-list-top">
+						<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="100%"
+							height="100px"></uv-image>
+						<view class="recommends-list-tag">
+							金顶纪念照
+						</view>
+					</view>
+					<view class="recommends-list-main">
+						<view class="recommends-list-title uv-line-2">
+							峨眉山数字门票
+						</view>
+						<view class="price">
+							￥75.00
+						</view>
+						<view class="recommends-list-desc">
+							限量
+							<view class="recommends-list-desc-info">100份</view>
+						</view>
+					</view>
+				</view>
+				<view class="recommends-list">
+					<view class="recommends-list-top">
+						<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="100%"
+							height="100px"></uv-image>
+						<view class="recommends-list-tag">
+							金顶纪念照
+						</view>
+					</view>
+					<view class="recommends-list-main">
+						<view class="recommends-list-title uv-line-2">
+							峨眉山数字门票
+						</view>
+						<view class="price">
+							￥75.00
+						</view>
+						<view class="recommends-list-desc">
+							限量
+							<view class="recommends-list-desc-info">100份</view>
+						</view>
+					</view>
+				</view>
+				<view class="recommends-list">
+					<view class="recommends-list-top">
+						<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="100%"
+							height="100px"></uv-image>
+						<view class="recommends-list-tag">
+							金顶纪念照
+						</view>
+					</view>
+					<view class="recommends-list-main">
+						<view class="recommends-list-title uv-line-2">
+							峨眉山数字门票
+						</view>
+						<view class="price">
+							￥75.00
+						</view>
+						<view class="recommends-list-desc">
+							限量
+							<view class="recommends-list-desc-info">100份</view>
+						</view>
+					</view>
+				</view>
+				<view class="recommends-list">
+					<view class="recommends-list-top">
+						<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="100%"
+							height="100px"></uv-image>
+						<view class="recommends-list-tag">
+							金顶纪念照
+						</view>
+					</view>
+					<view class="recommends-list-main">
+						<view class="recommends-list-title uv-line-2">
+							峨眉山数字门票
+						</view>
+						<view class="price">
+							￥75.00
+						</view>
+						<view class="recommends-list-desc">
+							限量
+							<view class="recommends-list-desc-info">100份</view>
+						</view>
+					</view>
+				</view>
+				<view class="recommends-list">
+					<view class="recommends-list-top">
+						<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="100%"
+							height="100px"></uv-image>
+						<view class="recommends-list-tag">
+							金顶纪念照
+						</view>
+					</view>
+					<view class="recommends-list-main">
+						<view class="recommends-list-title uv-line-2">
+							峨眉山数字门票
+						</view>
+						<view class="price">
+							￥75.00
+						</view>
+						<view class="recommends-list-desc">
+							限量
+							<view class="recommends-list-desc-info">100份</view>
+						</view>
+					</view>
+				</view>
+				<view class="recommends-list">
+					<view class="recommends-list-top">
+						<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="100%"
+							height="100px"></uv-image>
+						<view class="recommends-list-tag">
+							金顶纪念照
+						</view>
+					</view>
+					<view class="recommends-list-main">
+						<view class="recommends-list-title uv-line-2">
+							峨眉山数字门票
+						</view>
+						<view class="price">
+							￥75.00
+						</view>
+						<view class="recommends-list-desc">
+							限量
+							<view class="recommends-list-desc-info">100份</view>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+
+		<view class="container">
+			<view class="container-list">
+				<view class="recommends-list-top">
+					<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="100%"
+						height="100px"></uv-image>
+					<view class="recommends-list-tag">
+						金顶纪念照
+					</view>
+				</view>
+				<view class="recommends-list-main">
+					<view class="recommends-list-title uv-line-2">
+						成都博物馆数字金香囊音
+
+						乐盒纪念卡
+					</view>
+					<view class="price">
+						￥75.00
+					</view>
+					<view class="recommends-list-desc">
+						限量
+						<view class="recommends-list-desc-info">100份</view>
+					</view>
+				</view>
+			</view>
+			<view class="container-list">
+				<view class="recommends-list-top">
+					<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="100%"
+						height="100px"></uv-image>
+					<view class="recommends-list-tag">
+						金顶纪念照
+					</view>
+				</view>
+				<view class="recommends-list-main">
+					<view class="recommends-list-title uv-line-2">
+						峨眉山数字门票
+					</view>
+					<view class="price">
+						￥75.00
+					</view>
+					<view class="recommends-list-desc">
+						限量
+						<view class="recommends-list-desc-info">100份</view>
+					</view>
+				</view>
+			</view>
+
+			<view class="container-list">
+				<view class="recommends-list-top">
+					<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="100%"
+						height="100px"></uv-image>
+					<view class="recommends-list-tag">
+						金顶纪念照
+					</view>
+				</view>
+				<view class="recommends-list-main">
+					<view class="recommends-list-title uv-line-2">
+						峨眉山数字门票
+					</view>
+					<view class="price">
+						￥75.00
+					</view>
+					<view class="recommends-list-desc">
+						限量
+						<view class="recommends-list-desc-info">100份</view>
+					</view>
+				</view>
+			</view>
+
+			<view class="container-list">
+				<view class="recommends-list-top">
+					<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="100%"
+						height="100px"></uv-image>
+					<view class="recommends-list-tag">
+						金顶纪念照
+					</view>
+				</view>
+				<view class="recommends-list-main">
+					<view class="recommends-list-title uv-line-2">
+						成都博物馆数字金香囊音
+
+						乐盒纪念卡
+					</view>
+					<view class="price">
+						￥75.00
+					</view>
+					<view class="recommends-list-desc">
+						限量
+						<view class="recommends-list-desc-info">100份</view>
+					</view>
+				</view>
+			</view>
+
+			<view class="container-list">
+				<view class="recommends-list-top">
+					<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="100%"
+						height="100px"></uv-image>
+					<view class="recommends-list-tag">
+						金顶纪念照
+					</view>
+				</view>
+				<view class="recommends-list-main">
+					<view class="recommends-list-title uv-line-2">
+						峨眉山数字门票
+					</view>
+					<view class="price">
+						￥75.00
+					</view>
+					<view class="recommends-list-desc">
+						限量
+						<view class="recommends-list-desc-info">100份</view>
+					</view>
+				</view>
+			</view>
+
+		</view>
 	</view>
 </template>
 
@@ -80,12 +337,12 @@
 		navigationTitle: '',
 		text: ['uv-ui众多组件覆盖开发过程的各个需求', '组件功能丰富，多端兼容', '让您快速集成，开箱即用'],
 		list1: [{
-							name: '关注',
-						}, {
-							name: '推荐',
-						}, {
-							name: '电影'
-						}],
+			name: '关注',
+		}, {
+			name: '推荐',
+		}, {
+			name: '电影'
+		}],
 		list: [
 			'https://cdn.uviewui.com/uview/swiper/swiper1.png',
 			'https://cdn.uviewui.com/uview/swiper/swiper2.png',
@@ -124,6 +381,11 @@
 		data.menuButtonHeight = globalData.menuButtonHeight
 		data.navigationBarHeight = globalData.navigationBarHeight
 	})
+	const go=(url:string)=>{
+		uni.navigateTo({
+			url:url
+		})
+	}
 </script>
 <style>
 	page {
@@ -230,21 +492,6 @@
 		}
 	}
 
-	.nav {
-		display: flex;
-		justify-content: space-around;
-		border-radius: 5px;
-		padding: 15px;
-		background-color: #fff;
-
-		.nav-main {
-			display: flex;
-			flex-direction: column;
-			width: 25%;
-			align-items: center;
-			font-size: 14px;
-		}
-	}
 
 	.volume {
 		display: flex;
@@ -259,7 +506,7 @@
 	}
 
 	.tabs-container {
-		display: flex;
+		//display: flex;
 		justify-content: center;
 		overflow-x: auto;
 		margin-bottom: 10px;
@@ -267,7 +514,7 @@
 	}
 
 	.tabs-scroll {
-		display: flex;
+		//display: flex;
 		overflow-x: auto;
 		scroll-behavior: smooth;
 	}
@@ -275,16 +522,130 @@
 	.tabs {
 		display: flex;
 		gap: 10px;
-		padding: 0 10px;
+		padding: 10px;
 	}
 
 	.tab {
-		padding: 10px 20px;
-	
+		//padding: 10px 20px;
+
 		border-radius: 5px;
-	 flex-grow: 1;
-	  flex: 0 0 auto;
+		flex-grow: 1;
+		flex: auto;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
 
+	.showcase {
+		background-color: #fff;
+		margin-top: 10px;
+		padding: 10px;
+
+		.showcase-list {
+			border-radius: 15px;
+			margin-bottom: 10px;
+		}
+
+		.showcase-flex {
+			display: flex;
+			gap: 10px;
+
+			& .showcase-list {
+				flex: 1;
+
+			}
+		}
+	}
+
+	.recommend {
+		background: #fff;
+		margin-top: 10px;
+		padding: 15px;
+
+		.recommend-title {
+			margin-bottom: 10px;
+		}
+
+		.recommends {
+			display: flex;
+			overflow-x: auto;
+			font-size: 14px;
+			gap: 10px;
+			white-space: nowrap;
+
+			.recommends-list {
+				flex: 0;
+
+				.recommends-list-top {
+					position: relative;
+
+					.recommends-list-tag {
+						position: absolute;
+						bottom: 2px;
+						background-color: #fff;
+						border-radius: 5px;
+						padding: 2px;
+						font-size: 14px;
+					}
+				}
+
+				.recommends-list-main {
+
+					.price {
+						font-weight: bold;
+					}
+
+					.recommends-list-desc {
+						display: flex;
+
+						font-size: 14px;
+					}
+				}
+
+			}
+
+		}
+	}
+
+	.container {
+		margin-top: 10px;
+		padding: 10px;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px 20px;
+
+		.container-list {
+			background-color: #fff;
+			padding: 10px;
+			flex-basis: 40%;
+
+			.recommends-list-top {
+				position: relative;
+
+				.recommends-list-tag {
+					position: absolute;
+					bottom: 2px;
+					background-color: #fff;
+					border-radius: 5px;
+					padding: 2px;
+					font-size: 14px;
+				}
+			}
+
+			.recommends-list-main {
+
+				.price {
+					font-weight: bold;
+				}
+
+				.recommends-list-desc {
+					display: flex;
+
+					font-size: 14px;
+				}
+			}
+
+		}
+	}
 
 </style>

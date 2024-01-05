@@ -20,6 +20,23 @@
 				"navigationBarTitleText" : "",
 				"enablePullDownRefresh" : false
 			}
+		},
+		{
+			"path" : "pages/creative/creative",
+			"style" : 
+			{
+				"navigationBarTitleText" : "文创纪念",
+				"enablePullDownRefresh" : false
+				
+			}
+		},
+		{
+			"path" : "pages/map/map",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
 		}
 	],
 	"globalStyle": {

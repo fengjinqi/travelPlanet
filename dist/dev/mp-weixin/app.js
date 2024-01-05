@@ -4,6 +4,8 @@ const common_vendor = require("./common/vendor.js");
 if (!Math) {
   "./pages/index/index.js";
   "./pages/user/user.js";
+  "./pages/creative/creative.js";
+  "./pages/map/map.js";
 }
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "App",
@@ -37,6 +39,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     }
     globalData.navigationBarAndStatusBarHeight = globalData.navigationBarHeight + globalData.statusBarHeight;
     common_vendor.provide("globalData", globalData);
+    console.log(globalData);
     return () => {
     };
   }

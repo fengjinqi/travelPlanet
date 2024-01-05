@@ -1,5 +1,5 @@
 "use strict";
-var _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D;
+var _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z;
 const _export_sfc = (sfc, props2) => {
   const target = sfc.__vccOpts || sfc;
   for (const [key, val] of props2) {
@@ -6860,6 +6860,7 @@ const createHook = (lifecycle) => (hook, target = getCurrentInstance()) => {
 const onShow = /* @__PURE__ */ createHook(ON_SHOW);
 const onHide = /* @__PURE__ */ createHook(ON_HIDE);
 const onLaunch = /* @__PURE__ */ createHook(ON_LAUNCH);
+const onReady = /* @__PURE__ */ createHook(ON_READY);
 var toString = Object.prototype.toString;
 function isArray(val) {
   return toString.call(val) === "[object Array]";
@@ -8854,7 +8855,7 @@ const icons = {
   "uvicon-twitte": "e607",
   "uvicon-twitter-circle-fill": "e6cf"
 };
-const props$d = {
+const props$b = {
   props: {
     // 图标类名
     name: {
@@ -8944,7 +8945,7 @@ const props$d = {
     ...(_f = (_e = index$1.$uv) == null ? void 0 : _e.props) == null ? void 0 : _f.icon
   }
 };
-const props$c = {
+const props$a = {
   props: {
     // 列表数组，元素可为字符串，如为对象可通过keyName指定目标属性名
     list: {
@@ -9080,7 +9081,7 @@ const props$c = {
     ...(_h = (_g = index$1.$uv) == null ? void 0 : _g.props) == null ? void 0 : _h.swiper
   }
 };
-const props$b = {
+const props$9 = {
   props: {
     // 是否展示顶部的操作栏
     showToolbar: {
@@ -9175,7 +9176,7 @@ const props$b = {
     ...(_j = (_i = index$1.$uv) == null ? void 0 : _i.props) == null ? void 0 : _j.picker
   }
 };
-const props$a = {
+const props$8 = {
   props: {
     // 图片地址
     src: {
@@ -9270,7 +9271,7 @@ const props$a = {
     ...(_l = (_k = index$1.$uv) == null ? void 0 : _k.props) == null ? void 0 : _l.image
   }
 };
-const props$9 = {
+const props$7 = {
   props: {
     // 显示的内容，数组
     text: {
@@ -9346,150 +9347,6 @@ const props$9 = {
     ...(_n = (_m = index$1.$uv) == null ? void 0 : _m.props) == null ? void 0 : _n.noticeBar
   }
 };
-const props$8 = {
-  props: {
-    // 是否显示圆点
-    isDot: {
-      type: Boolean,
-      default: false
-    },
-    // 显示的内容
-    value: {
-      type: [Number, String],
-      default: ""
-    },
-    // 是否显示
-    show: {
-      type: Boolean,
-      default: true
-    },
-    // 最大值，超过最大值会显示 '{max}+'
-    max: {
-      type: [Number, String],
-      default: 999
-    },
-    // 主题类型，error|warning|success|primary
-    type: {
-      type: [String, void 0, null],
-      default: "error"
-    },
-    // 当数值为 0 时，是否展示 Badge
-    showZero: {
-      type: Boolean,
-      default: false
-    },
-    // 背景颜色，优先级比type高，如设置，type参数会失效
-    bgColor: {
-      type: [String, null],
-      default: null
-    },
-    // 字体颜色
-    color: {
-      type: [String, null],
-      default: null
-    },
-    // 徽标形状，circle-四角均为圆角，horn-左下角为直角
-    shape: {
-      type: [String, void 0, null],
-      default: "circle"
-    },
-    // 设置数字的显示方式，overflow|ellipsis|limit
-    // overflow会根据max字段判断，超出显示`${max}+`
-    // ellipsis会根据max判断，超出显示`${max}...`
-    // limit会依据1000作为判断条件，超出1000，显示`${value/1000}K`，比如2.2k、3.34w，最多保留2位小数
-    numberType: {
-      type: [String, void 0, null],
-      default: "overflow"
-    },
-    // 设置badge的位置偏移，格式为 [x, y]，也即设置的为top和right的值，absolute为true时有效
-    offset: {
-      type: Array,
-      default: () => []
-    },
-    // 是否反转背景和字体颜色
-    inverted: {
-      type: Boolean,
-      default: false
-    },
-    // 是否绝对定位
-    absolute: {
-      type: Boolean,
-      default: false
-    },
-    ...(_p = (_o = index$1.$uv) == null ? void 0 : _o.props) == null ? void 0 : _p.badge
-  }
-};
-const props$7 = {
-  props: {
-    // 滑块的移动过渡时间，单位ms
-    duration: {
-      type: Number,
-      default: 300
-    },
-    // tabs标签数组
-    list: {
-      type: Array,
-      default: () => []
-    },
-    // 滑块颜色
-    lineColor: {
-      type: String,
-      default: "#3c9cff"
-    },
-    // 菜单选择中时的样式
-    activeStyle: {
-      type: [String, Object],
-      default: () => ({
-        color: "#303133"
-      })
-    },
-    // 菜单非选中时的样式
-    inactiveStyle: {
-      type: [String, Object],
-      default: () => ({
-        color: "#606266"
-      })
-    },
-    // 滑块长度
-    lineWidth: {
-      type: [String, Number],
-      default: 20
-    },
-    // 滑块高度
-    lineHeight: {
-      type: [String, Number],
-      default: 3
-    },
-    // 滑块背景显示大小，当滑块背景设置为图片时使用
-    lineBgSize: {
-      type: String,
-      default: "cover"
-    },
-    // 菜单item的样式
-    itemStyle: {
-      type: [String, Object],
-      default: () => ({
-        height: "44px"
-      })
-    },
-    // 菜单是否可滚动
-    scrollable: {
-      type: Boolean,
-      default: true
-    },
-    // 当前选中标签的索引
-    current: {
-      type: [Number, String],
-      default: 0
-    },
-    // 默认读取的键名
-    keyName: {
-      type: String,
-      default: "name"
-    },
-    ...(_r = (_q = index$1.$uv) == null ? void 0 : _q.props) == null ? void 0 : _r.tabs
-  }
-};
 const props$6 = {
   props: {
     // 是否显示组件
@@ -9554,7 +9411,7 @@ const props$6 = {
       type: String,
       default: ""
     },
-    ...(_t = (_s = index$1.$uv) == null ? void 0 : _s.props) == null ? void 0 : _t.loadingIcon
+    ...(_p = (_o = index$1.$uv) == null ? void 0 : _o.props) == null ? void 0 : _p.loadingIcon
   }
 };
 const props$5 = {
@@ -9584,7 +9441,7 @@ const props$5 = {
       type: String,
       default: ""
     },
-    ...(_v = (_u = index$1.$uv) == null ? void 0 : _u.props) == null ? void 0 : _v.swiperIndicator
+    ...(_r = (_q = index$1.$uv) == null ? void 0 : _q.props) == null ? void 0 : _r.swiperIndicator
   }
 };
 const props$4 = {
@@ -9624,7 +9481,7 @@ const props$4 = {
       type: String,
       default: ""
     },
-    ...(_x = (_w = index$1.$uv) == null ? void 0 : _w.props) == null ? void 0 : _x.toolbar
+    ...(_t = (_s = index$1.$uv) == null ? void 0 : _s.props) == null ? void 0 : _t.toolbar
   }
 };
 class MPAnimation {
@@ -9797,7 +9654,7 @@ const props$3 = {
       type: Boolean,
       default: false
     },
-    ...(_z = (_y = index$1.$uv) == null ? void 0 : _y.props) == null ? void 0 : _z.columnNotice
+    ...(_v = (_u = index$1.$uv) == null ? void 0 : _u.props) == null ? void 0 : _v.columnNotice
   }
 };
 const props$2 = {
@@ -9837,7 +9694,7 @@ const props$2 = {
       type: [String, Number],
       default: 80
     },
-    ...(_B = (_A = index$1.$uv) == null ? void 0 : _A.props) == null ? void 0 : _B.rowNotice
+    ...(_x = (_w = index$1.$uv) == null ? void 0 : _w.props) == null ? void 0 : _x.rowNotice
   }
 };
 const props$1 = {
@@ -9862,7 +9719,7 @@ const props$1 = {
       type: [String, Number],
       default: 0.5
     },
-    ...(_D = (_C = index$1.$uv) == null ? void 0 : _C.props) == null ? void 0 : _D.overlay
+    ...(_z = (_y = index$1.$uv) == null ? void 0 : _y.props) == null ? void 0 : _z.overlay
   }
 };
 const props = {
@@ -9889,22 +9746,21 @@ exports.n = n;
 exports.o = o;
 exports.onHide = onHide;
 exports.onLaunch = onLaunch;
+exports.onReady = onReady;
 exports.onShow = onShow;
 exports.p = p;
-exports.props = props$d;
-exports.props$1 = props$c;
-exports.props$10 = props$3;
-exports.props$11 = props$2;
-exports.props$12 = props$1;
-exports.props$13 = props;
-exports.props$2 = props$b;
-exports.props$3 = props$a;
-exports.props$4 = props$9;
-exports.props$5 = props$7;
-exports.props$6 = props$8;
-exports.props$7 = props$6;
-exports.props$8 = props$5;
-exports.props$9 = props$4;
+exports.props = props$b;
+exports.props$1 = props$a;
+exports.props$10 = props$1;
+exports.props$11 = props;
+exports.props$2 = props$9;
+exports.props$3 = props$8;
+exports.props$4 = props$7;
+exports.props$5 = props$6;
+exports.props$6 = props$5;
+exports.props$7 = props$4;
+exports.props$8 = props$3;
+exports.props$9 = props$2;
 exports.provide = provide;
 exports.reactive = reactive;
 exports.ref = ref;

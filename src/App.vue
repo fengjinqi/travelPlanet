@@ -20,7 +20,7 @@
 
 	})
 
-	// #ifndef H5
+	// #ifndef H5 || APP
 	const { top, height } = uni.getMenuButtonBoundingClientRect()
 	console.log(top, height)
 	globalData.statusBarHeight = statusBarHeight as number
@@ -38,12 +38,14 @@
 	//用于绝对定位 占用空间
 	globalData.navigationBarAndStatusBarHeight = globalData.navigationBarHeight + (globalData.statusBarHeight as number);
 	// #endif  
-	// #ifdef H5
+	// #ifdef H5 || APP
 	globalData.menuButtonHeight = 32
+		globalData.statusBarHeight = statusBarHeight as number
 	globalData.navigationBarHeight = platform === 'android' ? 48 : 40
 	globalData.navigationBarAndStatusBarHeight = globalData.navigationBarHeight + (globalData.statusBarHeight as number);
 	// #endif
 	provide('globalData', globalData)
+	console.log(globalData)
 </script>
 <style lang="scss">
 	@import '@climblee/uv-ui/index.scss';

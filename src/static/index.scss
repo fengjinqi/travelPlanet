@@ -1,0 +1,40 @@
+.container {
+	
+	padding: 10px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px 20px;
+
+	.container-list {
+		background-color: #fff;
+		padding: 10px;
+		flex-basis: 40%;
+
+		.recommends-list-top {
+			position: relative;
+
+			.recommends-list-tag {
+				position: absolute;
+				bottom: 2px;
+				background-color: #fff;
+				border-radius: 5px;
+				padding: 2px;
+				font-size: 14px;
+			}
+		}
+
+		.recommends-list-main {
+
+			.price {
+				font-weight: bold;
+			}
+
+			.recommends-list-desc {
+				display: flex;
+
+				font-size: 14px;
+			}
+		}
+
+	}
+}
