@@ -1,5 +1,5 @@
 "use strict";
-var _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z;
+var _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D, _E, _F, _G, _H, _I, _J;
 const _export_sfc = (sfc, props2) => {
   const target = sfc.__vccOpts || sfc;
   for (const [key, val] of props2) {
@@ -15,11 +15,11 @@ function makeMap(str, expectsLowerCase) {
   }
   return expectsLowerCase ? (val) => !!map[val.toLowerCase()] : (val) => !!map[val];
 }
-function normalizeStyle(value) {
-  if (isArray$1(value)) {
+function normalizeStyle(value2) {
+  if (isArray$1(value2)) {
     const res = {};
-    for (let i = 0; i < value.length; i++) {
-      const item = value[i];
+    for (let i = 0; i < value2.length; i++) {
+      const item = value2[i];
       const normalized = isString(item) ? parseStringStyle(item) : normalizeStyle(item);
       if (normalized) {
         for (const key in normalized) {
@@ -28,10 +28,10 @@ function normalizeStyle(value) {
       }
     }
     return res;
-  } else if (isString(value)) {
-    return value;
-  } else if (isObject$1(value)) {
-    return value;
+  } else if (isString(value2)) {
+    return value2;
+  } else if (isObject$1(value2)) {
+    return value2;
   }
 }
 const listDelimiterRE = /;(?![^(]*\))/g;
@@ -47,20 +47,20 @@ function parseStringStyle(cssText) {
   });
   return ret;
 }
-function normalizeClass(value) {
+function normalizeClass(value2) {
   let res = "";
-  if (isString(value)) {
-    res = value;
-  } else if (isArray$1(value)) {
-    for (let i = 0; i < value.length; i++) {
-      const normalized = normalizeClass(value[i]);
+  if (isString(value2)) {
+    res = value2;
+  } else if (isArray$1(value2)) {
+    for (let i = 0; i < value2.length; i++) {
+      const normalized = normalizeClass(value2[i]);
       if (normalized) {
         res += normalized + " ";
       }
     }
-  } else if (isObject$1(value)) {
-    for (const name in value) {
-      if (value[name]) {
+  } else if (isObject$1(value2)) {
+    for (const name in value2) {
+      if (value2[name]) {
         res += name + " ";
       }
     }
@@ -117,9 +117,9 @@ const isPromise = (val) => {
   return isObject$1(val) && isFunction(val.then) && isFunction(val.catch);
 };
 const objectToString = Object.prototype.toString;
-const toTypeString = (value) => objectToString.call(value);
-const toRawType = (value) => {
-  return toTypeString(value).slice(8, -1);
+const toTypeString = (value2) => objectToString.call(value2);
+const toRawType = (value2) => {
+  return toTypeString(value2).slice(8, -1);
 };
 const isPlainObject$1 = (val) => toTypeString(val) === "[object Object]";
 const isIntegerKey = (key) => isString(key) && key !== "NaN" && key[0] !== "-" && "" + parseInt(key, 10) === key;
@@ -143,17 +143,17 @@ const hyphenateRE = /\B([A-Z])/g;
 const hyphenate = cacheStringFunction((str) => str.replace(hyphenateRE, "-$1").toLowerCase());
 const capitalize = cacheStringFunction((str) => str.charAt(0).toUpperCase() + str.slice(1));
 const toHandlerKey = cacheStringFunction((str) => str ? `on${capitalize(str)}` : ``);
-const hasChanged = (value, oldValue) => !Object.is(value, oldValue);
+const hasChanged = (value2, oldValue) => !Object.is(value2, oldValue);
 const invokeArrayFns$1 = (fns, arg) => {
   for (let i = 0; i < fns.length; i++) {
     fns[i](arg);
   }
 };
-const def = (obj, key, value) => {
+const def = (obj, key, value2) => {
   Object.defineProperty(obj, key, {
     configurable: true,
     enumerable: false,
-    value
+    value: value2
   });
 };
 const looseToNumber = (val) => {
@@ -314,8 +314,8 @@ const MINI_PROGRAM_PAGE_RUNTIME_HOOKS = /* @__PURE__ */ (() => {
     onShareTimeline: 1 << 2
   };
 })();
-function isUniLifecycleHook(name, value, checkType = true) {
-  if (checkType && !isFunction(value)) {
+function isUniLifecycleHook(name, value2, checkType = true) {
+  if (checkType && !isFunction(value2)) {
     return false;
   }
   if (UniLifecycleHooks.indexOf(name) > -1) {
@@ -466,7 +466,7 @@ function validateProtocols(name, args, protocol, onFail) {
     validateProtocol(name, data, { [opts.name]: opts }, onFail);
   }
 }
-function validateProp$1(name, value, prop, isAbsent) {
+function validateProp$1(name, value2, prop, isAbsent) {
   if (!isPlainObject$1(prop)) {
     prop = { type: prop };
   }
@@ -474,7 +474,7 @@ function validateProp$1(name, value, prop, isAbsent) {
   if (required && isAbsent) {
     return 'Missing required args: "' + name + '"';
   }
-  if (value == null && !required) {
+  if (value2 == null && !required) {
     return;
   }
   if (type != null) {
@@ -482,35 +482,35 @@ function validateProp$1(name, value, prop, isAbsent) {
     const types = isArray$1(type) ? type : [type];
     const expectedTypes = [];
     for (let i = 0; i < types.length && !isValid; i++) {
-      const { valid, expectedType } = assertType$1(value, types[i]);
+      const { valid, expectedType } = assertType$1(value2, types[i]);
       expectedTypes.push(expectedType || "");
       isValid = valid;
     }
     if (!isValid) {
-      return getInvalidTypeMessage$1(name, value, expectedTypes);
+      return getInvalidTypeMessage$1(name, value2, expectedTypes);
     }
   }
   if (validator) {
-    return validator(value);
+    return validator(value2);
   }
 }
 const isSimpleType$1 = /* @__PURE__ */ makeMap("String,Number,Boolean,Function,Symbol");
-function assertType$1(value, type) {
+function assertType$1(value2, type) {
   let valid;
   const expectedType = getType$1(type);
   if (isSimpleType$1(expectedType)) {
-    const t2 = typeof value;
+    const t2 = typeof value2;
     valid = t2 === expectedType.toLowerCase();
     if (!valid && t2 === "object") {
-      valid = value instanceof type;
+      valid = value2 instanceof type;
     }
   } else if (expectedType === "Object") {
-    valid = isObject$1(value);
+    valid = isObject$1(value2);
   } else if (expectedType === "Array") {
-    valid = isArray$1(value);
+    valid = isArray$1(value2);
   } else {
     {
-      valid = value instanceof type;
+      valid = value2 instanceof type;
     }
   }
   return {
@@ -518,12 +518,12 @@ function assertType$1(value, type) {
     expectedType
   };
 }
-function getInvalidTypeMessage$1(name, value, expectedTypes) {
+function getInvalidTypeMessage$1(name, value2, expectedTypes) {
   let message = `Invalid args: type check failed for args "${name}". Expected ${expectedTypes.map(capitalize).join(", ")}`;
   const expectedType = expectedTypes[0];
-  const receivedType = toRawType(value);
-  const expectedValue = styleValue$1(value, expectedType);
-  const receivedValue = styleValue$1(value, receivedType);
+  const receivedType = toRawType(value2);
+  const expectedValue = styleValue$1(value2, expectedType);
+  const receivedValue = styleValue$1(value2, receivedType);
   if (expectedTypes.length === 1 && isExplicable$1(expectedType) && !isBoolean$1(expectedType, receivedType)) {
     message += ` with value ${expectedValue}`;
   }
@@ -537,13 +537,13 @@ function getType$1(ctor) {
   const match = ctor && ctor.toString().match(/^\s*function (\w+)/);
   return match ? match[1] : "";
 }
-function styleValue$1(value, type) {
+function styleValue$1(value2, type) {
   if (type === "String") {
-    return `"${value}"`;
+    return `"${value2}"`;
   } else if (type === "Number") {
-    return `${Number(value)}`;
+    return `${Number(value2)}`;
   } else {
-    return `${value}`;
+    return `${value2}`;
   }
 }
 function isExplicable$1(type) {
@@ -1091,7 +1091,7 @@ function shouldPromise(name) {
 if (!Promise.prototype.finally) {
   Promise.prototype.finally = function(onfinally) {
     const promise2 = this.constructor;
-    return this.then((value) => promise2.resolve(onfinally && onfinally()).then(() => value), (reason) => promise2.resolve(onfinally && onfinally()).then(() => {
+    return this.then((value2) => promise2.resolve(onfinally && onfinally()).then(() => value2), (reason) => promise2.resolve(onfinally && onfinally()).then(() => {
       throw reason;
     }));
   };
@@ -1981,28 +1981,28 @@ function createGetter(isReadonly2 = false, shallow = false) {
 const set$1 = /* @__PURE__ */ createSetter();
 const shallowSet = /* @__PURE__ */ createSetter(true);
 function createSetter(shallow = false) {
-  return function set2(target, key, value, receiver) {
+  return function set2(target, key, value2, receiver) {
     let oldValue = target[key];
-    if (isReadonly(oldValue) && isRef(oldValue) && !isRef(value)) {
+    if (isReadonly(oldValue) && isRef(oldValue) && !isRef(value2)) {
       return false;
     }
     if (!shallow) {
-      if (!isShallow(value) && !isReadonly(value)) {
+      if (!isShallow(value2) && !isReadonly(value2)) {
         oldValue = toRaw(oldValue);
-        value = toRaw(value);
+        value2 = toRaw(value2);
       }
-      if (!isArray$1(target) && isRef(oldValue) && !isRef(value)) {
-        oldValue.value = value;
+      if (!isArray$1(target) && isRef(oldValue) && !isRef(value2)) {
+        oldValue.value = value2;
         return true;
       }
     }
     const hadKey = isArray$1(target) && isIntegerKey(key) ? Number(key) < target.length : hasOwn(target, key);
-    const result = Reflect.set(target, key, value, receiver);
+    const result = Reflect.set(target, key, value2, receiver);
     if (target === toRaw(receiver)) {
       if (!hadKey) {
-        trigger(target, "add", key, value);
-      } else if (hasChanged(value, oldValue)) {
-        trigger(target, "set", key, value, oldValue);
+        trigger(target, "add", key, value2);
+      } else if (hasChanged(value2, oldValue)) {
+        trigger(target, "set", key, value2, oldValue);
       }
     }
     return result;
@@ -2057,7 +2057,7 @@ const shallowReactiveHandlers = /* @__PURE__ */ extend({}, mutableHandlers, {
 const shallowReadonlyHandlers = /* @__PURE__ */ extend({}, readonlyHandlers, {
   get: shallowReadonlyGet
 });
-const toShallow = (value) => value;
+const toShallow = (value2) => value2;
 const getProto = (v) => Reflect.getPrototypeOf(v);
 function get(target, key, isReadonly2 = false, isShallow2 = false) {
   target = target[
@@ -2105,19 +2105,19 @@ function size(target, isReadonly2 = false) {
   !isReadonly2 && track(toRaw(target), "iterate", ITERATE_KEY);
   return Reflect.get(target, "size", target);
 }
-function add(value) {
-  value = toRaw(value);
+function add(value2) {
+  value2 = toRaw(value2);
   const target = toRaw(this);
   const proto = getProto(target);
-  const hadKey = proto.has.call(target, value);
+  const hadKey = proto.has.call(target, value2);
   if (!hadKey) {
-    target.add(value);
-    trigger(target, "add", value, value);
+    target.add(value2);
+    trigger(target, "add", value2, value2);
   }
   return this;
 }
-function set$2(key, value) {
-  value = toRaw(value);
+function set$2(key, value2) {
+  value2 = toRaw(value2);
   const target = toRaw(this);
   const { has: has2, get: get2 } = getProto(target);
   let hadKey = has2.call(target, key);
@@ -2128,11 +2128,11 @@ function set$2(key, value) {
     checkIdentityKeys(target, has2, key);
   }
   const oldValue = get2.call(target, key);
-  target.set(key, value);
+  target.set(key, value2);
   if (!hadKey) {
-    trigger(target, "add", key, value);
-  } else if (hasChanged(value, oldValue)) {
-    trigger(target, "set", key, value, oldValue);
+    trigger(target, "add", key, value2);
+  } else if (hasChanged(value2, oldValue)) {
+    trigger(target, "set", key, value2, oldValue);
   }
   return this;
 }
@@ -2173,8 +2173,8 @@ function createForEach(isReadonly2, isShallow2) {
     const rawTarget = toRaw(target);
     const wrap = isShallow2 ? toShallow : isReadonly2 ? toReadonly : toReactive;
     !isReadonly2 && track(rawTarget, "iterate", ITERATE_KEY);
-    return target.forEach((value, key) => {
-      return callback.call(thisArg, wrap(value), wrap(key), observed);
+    return target.forEach((value2, key) => {
+      return callback.call(thisArg, wrap(value2), wrap(key), observed);
     });
   };
 }
@@ -2194,9 +2194,9 @@ function createIterableMethod(method, isReadonly2, isShallow2) {
     return {
       // iterator protocol
       next() {
-        const { value, done } = innerIterator.next();
-        return done ? { value, done } : {
-          value: isPair ? [wrap(value[0]), wrap(value[1])] : wrap(value),
+        const { value: value2, done } = innerIterator.next();
+        return done ? { value: value2, done } : {
+          value: isPair ? [wrap(value2[0]), wrap(value2[1])] : wrap(value2),
           done
         };
       },
@@ -2366,11 +2366,11 @@ function targetTypeMap(rawType) {
       return 0;
   }
 }
-function getTargetType(value) {
-  return value[
+function getTargetType(value2) {
+  return value2[
     "__v_skip"
     /* ReactiveFlags.SKIP */
-  ] || !Object.isExtensible(value) ? 0 : targetTypeMap(toRawType(value));
+  ] || !Object.isExtensible(value2) ? 0 : targetTypeMap(toRawType(value2));
 }
 function reactive(target) {
   if (isReadonly(target)) {
@@ -2415,32 +2415,32 @@ function createReactiveObject(target, isReadonly2, baseHandlers, collectionHandl
   proxyMap.set(target, proxy);
   return proxy;
 }
-function isReactive(value) {
-  if (isReadonly(value)) {
-    return isReactive(value[
+function isReactive(value2) {
+  if (isReadonly(value2)) {
+    return isReactive(value2[
       "__v_raw"
       /* ReactiveFlags.RAW */
     ]);
   }
-  return !!(value && value[
+  return !!(value2 && value2[
     "__v_isReactive"
     /* ReactiveFlags.IS_REACTIVE */
   ]);
 }
-function isReadonly(value) {
-  return !!(value && value[
+function isReadonly(value2) {
+  return !!(value2 && value2[
     "__v_isReadonly"
     /* ReactiveFlags.IS_READONLY */
   ]);
 }
-function isShallow(value) {
-  return !!(value && value[
+function isShallow(value2) {
+  return !!(value2 && value2[
     "__v_isShallow"
     /* ReactiveFlags.IS_SHALLOW */
   ]);
 }
-function isProxy(value) {
-  return isReactive(value) || isReadonly(value);
+function isProxy(value2) {
+  return isReactive(value2) || isReadonly(value2);
 }
 function toRaw(observed) {
   const raw = observed && observed[
@@ -2449,12 +2449,12 @@ function toRaw(observed) {
   ];
   return raw ? toRaw(raw) : observed;
 }
-function markRaw(value) {
-  def(value, "__v_skip", true);
-  return value;
+function markRaw(value2) {
+  def(value2, "__v_skip", true);
+  return value2;
 }
-const toReactive = (value) => isObject$1(value) ? reactive(value) : value;
-const toReadonly = (value) => isObject$1(value) ? readonly(value) : value;
+const toReactive = (value2) => isObject$1(value2) ? reactive(value2) : value2;
+const toReadonly = (value2) => isObject$1(value2) ? readonly(value2) : value2;
 function trackRefValue(ref2) {
   if (shouldTrack && activeEffect) {
     ref2 = toRaw(ref2);
@@ -2484,8 +2484,8 @@ function triggerRefValue(ref2, newVal) {
 function isRef(r) {
   return !!(r && r.__v_isRef === true);
 }
-function ref(value) {
-  return createRef(value, false);
+function ref(value2) {
+  return createRef(value2, false);
 }
 function createRef(rawValue, shallow) {
   if (isRef(rawValue)) {
@@ -2494,12 +2494,12 @@ function createRef(rawValue, shallow) {
   return new RefImpl(rawValue, shallow);
 }
 class RefImpl {
-  constructor(value, __v_isShallow) {
+  constructor(value2, __v_isShallow) {
     this.__v_isShallow = __v_isShallow;
     this.dep = void 0;
     this.__v_isRef = true;
-    this._rawValue = __v_isShallow ? value : toRaw(value);
-    this._value = __v_isShallow ? value : toReactive(value);
+    this._rawValue = __v_isShallow ? value2 : toRaw(value2);
+    this._value = __v_isShallow ? value2 : toReactive(value2);
   }
   get value() {
     trackRefValue(this);
@@ -2520,13 +2520,13 @@ function unref(ref2) {
 }
 const shallowUnwrapHandlers = {
   get: (target, key, receiver) => unref(Reflect.get(target, key, receiver)),
-  set: (target, key, value, receiver) => {
+  set: (target, key, value2, receiver) => {
     const oldValue = target[key];
-    if (isRef(oldValue) && !isRef(value)) {
-      oldValue.value = value;
+    if (isRef(oldValue) && !isRef(value2)) {
+      oldValue.value = value2;
       return true;
     } else {
-      return Reflect.set(target, key, value, receiver);
+      return Reflect.set(target, key, value2, receiver);
     }
   }
 };
@@ -2665,20 +2665,20 @@ function formatProps(props2) {
   }
   return res;
 }
-function formatProp(key, value, raw) {
-  if (isString(value)) {
-    value = JSON.stringify(value);
-    return raw ? value : [`${key}=${value}`];
-  } else if (typeof value === "number" || typeof value === "boolean" || value == null) {
-    return raw ? value : [`${key}=${value}`];
-  } else if (isRef(value)) {
-    value = formatProp(key, toRaw(value.value), true);
-    return raw ? value : [`${key}=Ref<`, value, `>`];
-  } else if (isFunction(value)) {
-    return [`${key}=fn${value.name ? `<${value.name}>` : ``}`];
+function formatProp(key, value2, raw) {
+  if (isString(value2)) {
+    value2 = JSON.stringify(value2);
+    return raw ? value2 : [`${key}=${value2}`];
+  } else if (typeof value2 === "number" || typeof value2 === "boolean" || value2 == null) {
+    return raw ? value2 : [`${key}=${value2}`];
+  } else if (isRef(value2)) {
+    value2 = formatProp(key, toRaw(value2.value), true);
+    return raw ? value2 : [`${key}=Ref<`, value2, `>`];
+  } else if (isFunction(value2)) {
+    return [`${key}=fn${value2.name ? `<${value2.name}>` : ``}`];
   } else {
-    value = toRaw(value);
-    return raw ? value : [`${key}=`, value];
+    value2 = toRaw(value2);
+    return raw ? value2 : [`${key}=`, value2];
   }
 }
 const ErrorTypeStrings = {
@@ -3243,7 +3243,7 @@ function setCurrentRenderingInstance(instance) {
   instance && instance.type.__scopeId || null;
   return prev;
 }
-function provide(key, value) {
+function provide(key, value2) {
   if (!currentInstance) {
     {
       warn(`provide() can only be used inside setup().`);
@@ -3254,9 +3254,9 @@ function provide(key, value) {
     if (parentProvides === provides) {
       provides = currentInstance.provides = Object.create(parentProvides);
     }
-    provides[key] = value;
+    provides[key] = value2;
     if (currentInstance.type.mpType === "app") {
-      currentInstance.appContext.app.provide(key, value);
+      currentInstance.appContext.app.provide(key, value2);
     }
   }
 }
@@ -3420,15 +3420,15 @@ function doWatch(source, cb, { immediate, deep, flush, onTrack, onTrigger } = EM
   };
   return unwatch;
 }
-function instanceWatch(source, value, options) {
+function instanceWatch(source, value2, options) {
   const publicThis = this.proxy;
   const getter = isString(source) ? source.includes(".") ? createPathGetter(publicThis, source) : () => publicThis[source] : source.bind(publicThis, publicThis);
   let cb;
-  if (isFunction(value)) {
-    cb = value;
+  if (isFunction(value2)) {
+    cb = value2;
   } else {
-    cb = value.handler;
-    options = value;
+    cb = value2.handler;
+    options = value2;
   }
   const cur = currentInstance;
   setCurrentInstance(this);
@@ -3450,34 +3450,34 @@ function createPathGetter(ctx, path) {
     return cur;
   };
 }
-function traverse(value, seen) {
-  if (!isObject$1(value) || value[
+function traverse(value2, seen) {
+  if (!isObject$1(value2) || value2[
     "__v_skip"
     /* ReactiveFlags.SKIP */
   ]) {
-    return value;
+    return value2;
   }
   seen = seen || /* @__PURE__ */ new Set();
-  if (seen.has(value)) {
-    return value;
+  if (seen.has(value2)) {
+    return value2;
   }
-  seen.add(value);
-  if (isRef(value)) {
-    traverse(value.value, seen);
-  } else if (isArray$1(value)) {
-    for (let i = 0; i < value.length; i++) {
-      traverse(value[i], seen);
+  seen.add(value2);
+  if (isRef(value2)) {
+    traverse(value2.value, seen);
+  } else if (isArray$1(value2)) {
+    for (let i = 0; i < value2.length; i++) {
+      traverse(value2[i], seen);
     }
-  } else if (isSet(value) || isMap(value)) {
-    value.forEach((v) => {
+  } else if (isSet(value2) || isMap(value2)) {
+    value2.forEach((v) => {
       traverse(v, seen);
     });
-  } else if (isPlainObject$1(value)) {
-    for (const key in value) {
-      traverse(value[key], seen);
+  } else if (isPlainObject$1(value2)) {
+    for (const key in value2) {
+      traverse(value2[key], seen);
     }
   }
-  return value;
+  return value2;
 }
 function defineComponent(options) {
   return isFunction(options) ? { setup: options, name: options.name } : options;
@@ -3742,16 +3742,16 @@ const PublicInstanceProxyHandlers = {
       }
     }
   },
-  set({ _: instance }, key, value) {
+  set({ _: instance }, key, value2) {
     const { data, setupState, ctx } = instance;
     if (hasSetupBinding(setupState, key)) {
-      setupState[key] = value;
+      setupState[key] = value2;
       return true;
     } else if (setupState.__isScriptSetup && hasOwn(setupState, key)) {
       warn(`Cannot mutate <script setup> binding "${key}" from Options API.`);
       return false;
     } else if (data !== EMPTY_OBJ && hasOwn(data, key)) {
-      data[key] = value;
+      data[key] = value2;
       return true;
     } else if (hasOwn(instance.props, key)) {
       warn(`Attempting to mutate prop "${key}". Props are readonly.`);
@@ -3765,10 +3765,10 @@ const PublicInstanceProxyHandlers = {
         Object.defineProperty(ctx, key, {
           enumerable: true,
           configurable: true,
-          value
+          value: value2
         });
       } else {
-        ctx[key] = value;
+        ctx[key] = value2;
       }
     }
     return true;
@@ -4287,11 +4287,11 @@ function updateProps(instance, rawProps, rawPrevProps, optimized) {
         if (isEmitListener(instance.emitsOptions, key)) {
           continue;
         }
-        const value = rawProps[key];
+        const value2 = rawProps[key];
         if (options) {
           if (hasOwn(attrs, key)) {
-            if (value !== attrs[key]) {
-              attrs[key] = value;
+            if (value2 !== attrs[key]) {
+              attrs[key] = value2;
               hasAttrsChanged = true;
             }
           } else {
@@ -4300,15 +4300,15 @@ function updateProps(instance, rawProps, rawPrevProps, optimized) {
               options,
               rawCurrentProps,
               camelizedKey,
-              value,
+              value2,
               instance,
               false
               /* isAbsent */
             );
           }
         } else {
-          if (value !== attrs[key]) {
-            attrs[key] = value;
+          if (value2 !== attrs[key]) {
+            attrs[key] = value2;
             hasAttrsChanged = true;
           }
         }
@@ -4368,17 +4368,17 @@ function setFullProps(instance, rawProps, props2, attrs) {
       if (isReservedProp(key)) {
         continue;
       }
-      const value = rawProps[key];
+      const value2 = rawProps[key];
       let camelKey;
       if (options && hasOwn(options, camelKey = camelize(key))) {
         if (!needCastKeys || !needCastKeys.includes(camelKey)) {
-          props2[camelKey] = value;
+          props2[camelKey] = value2;
         } else {
-          (rawCastValues || (rawCastValues = {}))[camelKey] = value;
+          (rawCastValues || (rawCastValues = {}))[camelKey] = value2;
         }
       } else if (!isEmitListener(instance.emitsOptions, key)) {
-        if (!(key in attrs) || value !== attrs[key]) {
-          attrs[key] = value;
+        if (!(key in attrs) || value2 !== attrs[key]) {
+          attrs[key] = value2;
           hasAttrsChanged = true;
         }
       }
@@ -4394,23 +4394,23 @@ function setFullProps(instance, rawProps, props2, attrs) {
   }
   return hasAttrsChanged;
 }
-function resolvePropValue(options, props2, key, value, instance, isAbsent) {
+function resolvePropValue(options, props2, key, value2, instance, isAbsent) {
   const opt = options[key];
   if (opt != null) {
     const hasDefault = hasOwn(opt, "default");
-    if (hasDefault && value === void 0) {
+    if (hasDefault && value2 === void 0) {
       const defaultValue = opt.default;
       if (opt.type !== Function && isFunction(defaultValue)) {
         const { propsDefaults } = instance;
         if (key in propsDefaults) {
-          value = propsDefaults[key];
+          value2 = propsDefaults[key];
         } else {
           setCurrentInstance(instance);
-          value = propsDefaults[key] = defaultValue.call(null, props2);
+          value2 = propsDefaults[key] = defaultValue.call(null, props2);
           unsetCurrentInstance();
         }
       } else {
-        value = defaultValue;
+        value2 = defaultValue;
       }
     }
     if (opt[
@@ -4418,16 +4418,16 @@ function resolvePropValue(options, props2, key, value, instance, isAbsent) {
       /* BooleanFlags.shouldCast */
     ]) {
       if (isAbsent && !hasDefault) {
-        value = false;
+        value2 = false;
       } else if (opt[
         1
         /* BooleanFlags.shouldCastTrue */
-      ] && (value === "" || value === hyphenate(key))) {
-        value = true;
+      ] && (value2 === "" || value2 === hyphenate(key))) {
+        value2 = true;
       }
     }
   }
-  return value;
+  return value2;
 }
 function normalizePropsOptions(comp, appContext, asMixin = false) {
   const cache = appContext.propsCache;
@@ -4539,13 +4539,13 @@ function validateProps(rawProps, props2, instance) {
     validateProp(key, resolvedValues[key], opt, !hasOwn(rawProps, key) && !hasOwn(rawProps, hyphenate(key)));
   }
 }
-function validateProp(name, value, prop, isAbsent) {
+function validateProp(name, value2, prop, isAbsent) {
   const { type, required, validator } = prop;
   if (required && isAbsent) {
     warn('Missing required prop: "' + name + '"');
     return;
   }
-  if (value == null && !prop.required) {
+  if (value2 == null && !prop.required) {
     return;
   }
   if (type != null && type !== true) {
@@ -4553,49 +4553,49 @@ function validateProp(name, value, prop, isAbsent) {
     const types = isArray$1(type) ? type : [type];
     const expectedTypes = [];
     for (let i = 0; i < types.length && !isValid; i++) {
-      const { valid, expectedType } = assertType(value, types[i]);
+      const { valid, expectedType } = assertType(value2, types[i]);
       expectedTypes.push(expectedType || "");
       isValid = valid;
     }
     if (!isValid) {
-      warn(getInvalidTypeMessage(name, value, expectedTypes));
+      warn(getInvalidTypeMessage(name, value2, expectedTypes));
       return;
     }
   }
-  if (validator && !validator(value)) {
+  if (validator && !validator(value2)) {
     warn('Invalid prop: custom validator check failed for prop "' + name + '".');
   }
 }
 const isSimpleType = /* @__PURE__ */ makeMap("String,Number,Boolean,Function,Symbol,BigInt");
-function assertType(value, type) {
+function assertType(value2, type) {
   let valid;
   const expectedType = getType(type);
   if (isSimpleType(expectedType)) {
-    const t2 = typeof value;
+    const t2 = typeof value2;
     valid = t2 === expectedType.toLowerCase();
     if (!valid && t2 === "object") {
-      valid = value instanceof type;
+      valid = value2 instanceof type;
     }
   } else if (expectedType === "Object") {
-    valid = isObject$1(value);
+    valid = isObject$1(value2);
   } else if (expectedType === "Array") {
-    valid = isArray$1(value);
+    valid = isArray$1(value2);
   } else if (expectedType === "null") {
-    valid = value === null;
+    valid = value2 === null;
   } else {
-    valid = value instanceof type;
+    valid = value2 instanceof type;
   }
   return {
     valid,
     expectedType
   };
 }
-function getInvalidTypeMessage(name, value, expectedTypes) {
+function getInvalidTypeMessage(name, value2, expectedTypes) {
   let message = `Invalid prop: type check failed for prop "${name}". Expected ${expectedTypes.map(capitalize).join(" | ")}`;
   const expectedType = expectedTypes[0];
-  const receivedType = toRawType(value);
-  const expectedValue = styleValue(value, expectedType);
-  const receivedValue = styleValue(value, receivedType);
+  const receivedType = toRawType(value2);
+  const expectedValue = styleValue(value2, expectedType);
+  const receivedValue = styleValue(value2, receivedType);
   if (expectedTypes.length === 1 && isExplicable(expectedType) && !isBoolean(expectedType, receivedType)) {
     message += ` with value ${expectedValue}`;
   }
@@ -4605,13 +4605,13 @@ function getInvalidTypeMessage(name, value, expectedTypes) {
   }
   return message;
 }
-function styleValue(value, type) {
+function styleValue(value2, type) {
   if (type === "String") {
-    return `"${value}"`;
+    return `"${value2}"`;
   } else if (type === "Number") {
-    return `${Number(value)}`;
+    return `${Number(value2)}`;
   } else {
-    return `${value}`;
+    return `${value2}`;
   }
 }
 function isExplicable(type) {
@@ -4726,11 +4726,11 @@ function createAppAPI(render, hydrate) {
       // fixed by xxxxxx
       unmount() {
       },
-      provide(key, value) {
+      provide(key, value2) {
         if (key in context.provides) {
           warn(`App already provides property with key "${String(key)}". It will be overwritten with the new value.`);
         }
-        context.provides[key] = value;
+        context.provides[key] = value2;
         return app;
       }
     };
@@ -4777,8 +4777,8 @@ const Fragment = Symbol("Fragment");
 const Text = Symbol("Text");
 const Comment = Symbol("Comment");
 const Static = Symbol("Static");
-function isVNode(value) {
-  return value ? value.__v_isVNode === true : false;
+function isVNode(value2) {
+  return value2 ? value2.__v_isVNode === true : false;
 }
 const InternalObjectKey = `__vInternal`;
 function guardReactiveProps(props2) {
@@ -5358,11 +5358,11 @@ function setRef$1(instance, isUnmount = false) {
     nextTick(instance, doSet);
   }
 }
-function toSkip(value) {
-  if (isObject$1(value)) {
-    markRaw(value);
+function toSkip(value2) {
+  if (isObject$1(value2)) {
+    markRaw(value2);
   }
-  return value;
+  return value2;
 }
 function findComponentPublicInstance(mpComponents, id) {
   const mpInstance = mpComponents.find((com) => com && (com.properties || com.props).uI === id);
@@ -5876,21 +5876,21 @@ function getCreateApp() {
     return my[method];
   }
 }
-function vOn(value, key) {
+function vOn(value2, key) {
   const instance = getCurrentInstance();
   const ctx = instance.ctx;
   const extraKey = typeof key !== "undefined" && (ctx.$mpPlatform === "mp-weixin" || ctx.$mpPlatform === "mp-qq") && (isString(key) || typeof key === "number") ? "_" + key : "";
   const name = "e" + instance.$ei++ + extraKey;
   const mpInstance = ctx.$scope;
-  if (!value) {
+  if (!value2) {
     delete mpInstance[name];
     return name;
   }
   const existingInvoker = mpInstance[name];
   if (existingInvoker) {
-    existingInvoker.value = value;
+    existingInvoker.value = value2;
   } else {
-    mpInstance[name] = createInvoker(value, instance);
+    mpInstance[name] = createInvoker(value2, instance);
   }
   return name;
 }
@@ -5953,16 +5953,16 @@ function patchMPEvent(event) {
     }
   }
 }
-function patchStopImmediatePropagation(e2, value) {
-  if (isArray$1(value)) {
+function patchStopImmediatePropagation(e2, value2) {
+  if (isArray$1(value2)) {
     const originalStop = e2.stopImmediatePropagation;
     e2.stopImmediatePropagation = () => {
       originalStop && originalStop.call(e2);
       e2._stopped = true;
     };
-    return value.map((fn) => (e3) => !e3._stopped && fn(e3));
+    return value2.map((fn) => (e3) => !e3._stopped && fn(e3));
   } else {
-    return value;
+    return value2;
   }
 }
 function vFor(source, renderItem) {
@@ -5997,11 +5997,11 @@ function vFor(source, renderItem) {
   }
   return ret;
 }
-function stringifyStyle(value) {
-  if (isString(value)) {
-    return value;
+function stringifyStyle(value2) {
+  if (isString(value2)) {
+    return value2;
   }
-  return stringify(normalizeStyle(value));
+  return stringify(normalizeStyle(value2));
 }
 function stringify(styles) {
   let ret = "";
@@ -6017,11 +6017,11 @@ function setRef(ref2, id, opts = {}) {
   const { $templateRefs } = getCurrentInstance();
   $templateRefs.push({ i: id, r: ref2, k: opts.k, f: opts.f });
 }
-const o = (value, key) => vOn(value, key);
+const o = (value2, key) => vOn(value2, key);
 const f = (source, renderItem) => vFor(source, renderItem);
-const s = (value) => stringifyStyle(value);
+const s = (value2) => stringifyStyle(value2);
 const e = (target, ...sources) => extend(target, ...sources);
-const n = (value) => normalizeClass(value);
+const n = (value2) => normalizeClass(value2);
 const t = (val) => toDisplayString(val);
 const p = (props2) => renderProps(props2);
 const sr = (ref2, id, opts) => setRef(ref2, id, opts);
@@ -6486,15 +6486,15 @@ function initPageProps({ properties }, rawProps) {
     Object.keys(rawProps).forEach((key) => {
       const opts = rawProps[key];
       if (isPlainObject$1(opts)) {
-        let value = opts.default;
-        if (isFunction(value)) {
-          value = value();
+        let value2 = opts.default;
+        if (isFunction(value2)) {
+          value2 = value2();
         }
         const type = opts.type;
         opts.type = normalizePropType(type);
         properties[key] = {
           type: opts.type,
-          value
+          value: value2
         };
       } else {
         properties[key] = {
@@ -7215,8 +7215,8 @@ var clone = function() {
         child = new nativeSet();
       } else if (_instanceof(parent2, nativePromise)) {
         child = new nativePromise(function(resolve2, reject) {
-          parent2.then(function(value) {
-            resolve2(_clone(value, depth2 - 1));
+          parent2.then(function(value2) {
+            resolve2(_clone(value2, depth2 - 1));
           }, function(err) {
             reject(_clone(err, depth2 - 1));
           });
@@ -7257,15 +7257,15 @@ var clone = function() {
         allChildren.push(child);
       }
       if (_instanceof(parent2, nativeMap)) {
-        parent2.forEach(function(value, key) {
+        parent2.forEach(function(value2, key) {
           var keyChild = _clone(key, depth2 - 1);
-          var valueChild = _clone(value, depth2 - 1);
+          var valueChild = _clone(value2, depth2 - 1);
           child.set(keyChild, valueChild);
         });
       }
       if (_instanceof(parent2, nativeSet)) {
-        parent2.forEach(function(value) {
-          var entryChild = _clone(value, depth2 - 1);
+        parent2.forEach(function(value2) {
+          var entryChild = _clone(value2, depth2 - 1);
           child.add(entryChild);
         });
       }
@@ -7492,107 +7492,107 @@ class Request {
     return "3.1.0";
   }
 }
-function email(value) {
-  return /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(value);
+function email(value2) {
+  return /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(value2);
 }
-function mobile(value) {
-  return /^1([3589]\d|4[5-9]|6[1-2,4-7]|7[0-8])\d{8}$/.test(value);
+function mobile(value2) {
+  return /^1([3589]\d|4[5-9]|6[1-2,4-7]|7[0-8])\d{8}$/.test(value2);
 }
-function url(value) {
-  return /^((https|http|ftp|rtsp|mms):\/\/)(([0-9a-zA-Z_!~*'().&=+$%-]+: )?[0-9a-zA-Z_!~*'().&=+$%-]+@)?(([0-9]{1,3}.){3}[0-9]{1,3}|([0-9a-zA-Z_!~*'()-]+.)*([0-9a-zA-Z][0-9a-zA-Z-]{0,61})?[0-9a-zA-Z].[a-zA-Z]{2,6})(:[0-9]{1,4})?((\/?)|(\/[0-9a-zA-Z_!~*'().;?:@&=+$,%#-]+)+\/?)$/.test(value);
+function url(value2) {
+  return /^((https|http|ftp|rtsp|mms):\/\/)(([0-9a-zA-Z_!~*'().&=+$%-]+: )?[0-9a-zA-Z_!~*'().&=+$%-]+@)?(([0-9]{1,3}.){3}[0-9]{1,3}|([0-9a-zA-Z_!~*'()-]+.)*([0-9a-zA-Z][0-9a-zA-Z-]{0,61})?[0-9a-zA-Z].[a-zA-Z]{2,6})(:[0-9]{1,4})?((\/?)|(\/[0-9a-zA-Z_!~*'().;?:@&=+$,%#-]+)+\/?)$/.test(value2);
 }
-function date(value) {
-  if (!value)
+function date(value2) {
+  if (!value2)
     return false;
-  if (number(value))
-    value = +value;
-  return !/Invalid|NaN/.test(new Date(value).toString());
+  if (number(value2))
+    value2 = +value2;
+  return !/Invalid|NaN/.test(new Date(value2).toString());
 }
-function dateISO(value) {
-  return /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/.test(value);
+function dateISO(value2) {
+  return /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/.test(value2);
 }
-function number(value) {
-  return /^[\+-]?(\d+\.?\d*|\.\d+|\d\.\d+e\+\d+)$/.test(value);
+function number(value2) {
+  return /^[\+-]?(\d+\.?\d*|\.\d+|\d\.\d+e\+\d+)$/.test(value2);
 }
-function string(value) {
-  return typeof value === "string";
+function string(value2) {
+  return typeof value2 === "string";
 }
-function digits(value) {
-  return /^\d+$/.test(value);
+function digits(value2) {
+  return /^\d+$/.test(value2);
 }
-function idCard(value) {
+function idCard(value2) {
   return /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/.test(
-    value
+    value2
   );
 }
-function carNo(value) {
+function carNo(value2) {
   const xreg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}(([0-9]{5}[DF]$)|([DF][A-HJ-NP-Z0-9][0-9]{4}$))/;
   const creg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳]{1}$/;
-  if (value.length === 7) {
-    return creg.test(value);
+  if (value2.length === 7) {
+    return creg.test(value2);
   }
-  if (value.length === 8) {
-    return xreg.test(value);
+  if (value2.length === 8) {
+    return xreg.test(value2);
   }
   return false;
 }
-function amount(value) {
-  return /^[1-9]\d*(,\d{3})*(\.\d{1,2})?$|^0\.\d{1,2}$/.test(value);
+function amount(value2) {
+  return /^[1-9]\d*(,\d{3})*(\.\d{1,2})?$|^0\.\d{1,2}$/.test(value2);
 }
-function chinese(value) {
+function chinese(value2) {
   const reg = /^[\u4e00-\u9fa5]+$/gi;
-  return reg.test(value);
+  return reg.test(value2);
 }
-function letter(value) {
-  return /^[a-zA-Z]*$/.test(value);
+function letter(value2) {
+  return /^[a-zA-Z]*$/.test(value2);
 }
-function enOrNum(value) {
+function enOrNum(value2) {
   const reg = /^[0-9a-zA-Z]*$/g;
-  return reg.test(value);
+  return reg.test(value2);
 }
-function contains(value, param) {
-  return value.indexOf(param) >= 0;
+function contains(value2, param) {
+  return value2.indexOf(param) >= 0;
 }
-function range$1(value, param) {
-  return value >= param[0] && value <= param[1];
+function range$1(value2, param) {
+  return value2 >= param[0] && value2 <= param[1];
 }
-function rangeLength(value, param) {
-  return value.length >= param[0] && value.length <= param[1];
+function rangeLength(value2, param) {
+  return value2.length >= param[0] && value2.length <= param[1];
 }
-function landline(value) {
+function landline(value2) {
   const reg = /^\d{3,4}-\d{7,8}(-\d{3,4})?$/;
-  return reg.test(value);
+  return reg.test(value2);
 }
-function empty(value) {
-  switch (typeof value) {
+function empty(value2) {
+  switch (typeof value2) {
     case "undefined":
       return true;
     case "string":
-      if (value.replace(/(^[ \t\n\r]*)|([ \t\n\r]*$)/g, "").length == 0)
+      if (value2.replace(/(^[ \t\n\r]*)|([ \t\n\r]*$)/g, "").length == 0)
         return true;
       break;
     case "boolean":
-      if (!value)
+      if (!value2)
         return true;
       break;
     case "number":
-      if (value === 0 || isNaN(value))
+      if (value2 === 0 || isNaN(value2))
         return true;
       break;
     case "object":
-      if (value === null || value.length === 0)
+      if (value2 === null || value2.length === 0)
         return true;
-      for (const i in value) {
+      for (const i in value2) {
         return false;
       }
       return true;
   }
   return false;
 }
-function jsonString(value) {
-  if (typeof value === "string") {
+function jsonString(value2) {
+  if (typeof value2 === "string") {
     try {
-      const obj = JSON.parse(value);
+      const obj = JSON.parse(value2);
       if (typeof obj === "object" && obj) {
         return true;
       }
@@ -7603,32 +7603,32 @@ function jsonString(value) {
   }
   return false;
 }
-function array(value) {
+function array(value2) {
   if (typeof Array.isArray === "function") {
-    return Array.isArray(value);
+    return Array.isArray(value2);
   }
-  return Object.prototype.toString.call(value) === "[object Array]";
+  return Object.prototype.toString.call(value2) === "[object Array]";
 }
-function object(value) {
-  return Object.prototype.toString.call(value) === "[object Object]";
+function object(value2) {
+  return Object.prototype.toString.call(value2) === "[object Object]";
 }
-function code(value, len = 6) {
-  return new RegExp(`^\\d{${len}}$`).test(value);
+function code(value2, len = 6) {
+  return new RegExp(`^\\d{${len}}$`).test(value2);
 }
-function func(value) {
-  return typeof value === "function";
+function func(value2) {
+  return typeof value2 === "function";
 }
-function promise(value) {
-  return object(value) && func(value.then) && func(value.catch);
+function promise(value2) {
+  return object(value2) && func(value2.then) && func(value2.catch);
 }
-function image(value) {
-  const newValue = value.split("?")[0];
+function image(value2) {
+  const newValue = value2.split("?")[0];
   const IMAGE_REGEXP = /\.(jpeg|jpg|gif|png|svg|webp|jfif|bmp|dpg)/i;
   return IMAGE_REGEXP.test(newValue);
 }
-function video(value) {
+function video(value2) {
   const VIDEO_REGEXP = /\.(mp4|mpg|mpeg|dat|asf|avi|rm|rmvb|mov|wmv|flv|mkv|m3u8)/i;
-  return VIDEO_REGEXP.test(value);
+  return VIDEO_REGEXP.test(value2);
 }
 function regExp(o2) {
   return o2 && Object.prototype.toString.call(o2) === "[object RegExp]";
@@ -7725,23 +7725,23 @@ function round(num, ratio) {
   }
   return result;
 }
-function range(min = 0, max = 0, value = 0) {
-  return Math.max(min, Math.min(max, Number(value)));
+function range(min = 0, max = 0, value2 = 0) {
+  return Math.max(min, Math.min(max, Number(value2)));
 }
-function getPx(value, unit = false) {
-  if (number(value)) {
-    return unit ? `${value}px` : Number(value);
+function getPx(value2, unit = false) {
+  if (number(value2)) {
+    return unit ? `${value2}px` : Number(value2);
   }
-  if (/(rpx|upx)$/.test(value)) {
-    return unit ? `${index$1.upx2px(parseInt(value))}px` : Number(index$1.upx2px(parseInt(value)));
+  if (/(rpx|upx)$/.test(value2)) {
+    return unit ? `${index$1.upx2px(parseInt(value2))}px` : Number(index$1.upx2px(parseInt(value2)));
   }
-  return unit ? `${parseInt(value)}px` : parseInt(value);
+  return unit ? `${parseInt(value2)}px` : parseInt(value2);
 }
-function sleep(value = 30) {
+function sleep(value2 = 30) {
   return new Promise((resolve2) => {
     setTimeout(() => {
       resolve2();
-    }, value);
+    }, value2);
   });
 }
 function os() {
@@ -7815,9 +7815,9 @@ function addStyle(customStyle, target = "object") {
   }
   return trim(string2);
 }
-function addUnit(value = "auto", unit = ((_b) => (_b = ((_a2) => (_a2 = index$1 == null ? void 0 : index$1.$uv) == null ? void 0 : _a2.config)()) == null ? void 0 : _b.unit)() ? ((_d) => (_d = ((_c) => (_c = index$1 == null ? void 0 : index$1.$uv) == null ? void 0 : _c.config)()) == null ? void 0 : _d.unit)() : "px") {
-  value = String(value);
-  return number(value) ? `${value}${unit}` : value;
+function addUnit(value2 = "auto", unit = ((_b) => (_b = ((_a2) => (_a2 = index$1 == null ? void 0 : index$1.$uv) == null ? void 0 : _a2.config)()) == null ? void 0 : _b.unit)() ? ((_d) => (_d = ((_c) => (_c = index$1 == null ? void 0 : index$1.$uv) == null ? void 0 : _c.config)()) == null ? void 0 : _d.unit)() : "px") {
+  value2 = String(value2);
+  return number(value2) ? `${value2}${unit}` : value2;
 }
 function deepClone(obj, cache = /* @__PURE__ */ new WeakMap()) {
   if (obj === null || typeof obj !== "object")
@@ -7830,16 +7830,16 @@ function deepClone(obj, cache = /* @__PURE__ */ new WeakMap()) {
   } else if (obj instanceof RegExp) {
     clone2 = new RegExp(obj);
   } else if (obj instanceof Map) {
-    clone2 = new Map(Array.from(obj, ([key, value]) => [key, deepClone(value, cache)]));
+    clone2 = new Map(Array.from(obj, ([key, value2]) => [key, deepClone(value2, cache)]));
   } else if (obj instanceof Set) {
-    clone2 = new Set(Array.from(obj, (value) => deepClone(value, cache)));
+    clone2 = new Set(Array.from(obj, (value2) => deepClone(value2, cache)));
   } else if (Array.isArray(obj)) {
-    clone2 = obj.map((value) => deepClone(value, cache));
+    clone2 = obj.map((value2) => deepClone(value2, cache));
   } else if (Object.prototype.toString.call(obj) === "[object Object]") {
     clone2 = Object.create(Object.getPrototypeOf(obj));
     cache.set(obj, clone2);
-    for (const [key, value] of Object.entries(obj)) {
-      clone2[key] = deepClone(value, cache);
+    for (const [key, value2] of Object.entries(obj)) {
+      clone2[key] = deepClone(value2, cache);
     }
   } else {
     clone2 = Object.assign({}, obj);
@@ -7996,41 +7996,41 @@ function queryParams(data = {}, isPrefix = true, arrayFormat = "brackets") {
   if (["indices", "brackets", "repeat", "comma"].indexOf(arrayFormat) == -1)
     arrayFormat = "brackets";
   for (const key in data) {
-    const value = data[key];
-    if (["", void 0, null].indexOf(value) >= 0) {
+    const value2 = data[key];
+    if (["", void 0, null].indexOf(value2) >= 0) {
       continue;
     }
-    if (value.constructor === Array) {
+    if (value2.constructor === Array) {
       switch (arrayFormat) {
         case "indices":
-          for (let i = 0; i < value.length; i++) {
-            _result.push(`${key}[${i}]=${value[i]}`);
+          for (let i = 0; i < value2.length; i++) {
+            _result.push(`${key}[${i}]=${value2[i]}`);
           }
           break;
         case "brackets":
-          value.forEach((_value) => {
+          value2.forEach((_value) => {
             _result.push(`${key}[]=${_value}`);
           });
           break;
         case "repeat":
-          value.forEach((_value) => {
+          value2.forEach((_value) => {
             _result.push(`${key}=${_value}`);
           });
           break;
         case "comma":
           let commaStr = "";
-          value.forEach((_value) => {
+          value2.forEach((_value) => {
             commaStr += (commaStr ? "," : "") + _value;
           });
           _result.push(`${key}=${commaStr}`);
           break;
         default:
-          value.forEach((_value) => {
+          value2.forEach((_value) => {
             _result.push(`${key}[]=${_value}`);
           });
       }
     } else {
-      _result.push(`${key}=${value}`);
+      _result.push(`${key}=${value2}`);
     }
   }
   return _result.length ? prefix + _result.join("&") : "";
@@ -8087,21 +8087,21 @@ function priceFormat(number2, decimals = 0, decimalPoint = ".", thousandsSeparat
   }
   return s2.join(dec);
 }
-function getDuration(value, unit = true) {
-  const valueNum = parseInt(value);
+function getDuration(value2, unit = true) {
+  const valueNum = parseInt(value2);
   if (unit) {
-    if (/s$/.test(value))
-      return value;
-    return value > 30 ? `${value}ms` : `${value}s`;
+    if (/s$/.test(value2))
+      return value2;
+    return value2 > 30 ? `${value2}ms` : `${value2}s`;
   }
-  if (/ms$/.test(value))
+  if (/ms$/.test(value2))
     return valueNum;
-  if (/s$/.test(value))
+  if (/s$/.test(value2))
     return valueNum > 30 ? valueNum : valueNum * 1e3;
   return valueNum;
 }
-function padZero(value) {
-  return `00${value}`.slice(-2);
+function padZero(value2) {
+  return `00${value2}`.slice(-2);
 }
 function formValidate(instance, event) {
   const formItem = $parent.call(instance, "uv-form-item");
@@ -8130,7 +8130,7 @@ function getProperty(obj, key) {
   }
   return obj[key];
 }
-function setProperty(obj, key, value) {
+function setProperty(obj, key, value2) {
   if (!obj) {
     return;
   }
@@ -8152,9 +8152,9 @@ function setProperty(obj, key, value) {
     ;
   else if (key.indexOf(".") !== -1) {
     const keys = key.split(".");
-    inFn(obj, keys, value);
+    inFn(obj, keys, value2);
   } else {
-    obj[key] = value;
+    obj[key] = value2;
   }
 }
 function page() {
@@ -8855,7 +8855,7 @@ const icons = {
   "uvicon-twitte": "e607",
   "uvicon-twitter-circle-fill": "e6cf"
 };
-const props$b = {
+const props$g = {
   props: {
     // 图标类名
     name: {
@@ -8945,7 +8945,7 @@ const props$b = {
     ...(_f = (_e = index$1.$uv) == null ? void 0 : _e.props) == null ? void 0 : _f.icon
   }
 };
-const props$a = {
+const props$f = {
   props: {
     // 列表数组，元素可为字符串，如为对象可通过keyName指定目标属性名
     list: {
@@ -9081,7 +9081,7 @@ const props$a = {
     ...(_h = (_g = index$1.$uv) == null ? void 0 : _g.props) == null ? void 0 : _h.swiper
   }
 };
-const props$9 = {
+const props$e = {
   props: {
     // 是否展示顶部的操作栏
     showToolbar: {
@@ -9176,7 +9176,7 @@ const props$9 = {
     ...(_j = (_i = index$1.$uv) == null ? void 0 : _i.props) == null ? void 0 : _j.picker
   }
 };
-const props$8 = {
+const props$d = {
   props: {
     // 图片地址
     src: {
@@ -9271,7 +9271,7 @@ const props$8 = {
     ...(_l = (_k = index$1.$uv) == null ? void 0 : _k.props) == null ? void 0 : _l.image
   }
 };
-const props$7 = {
+const props$c = {
   props: {
     // 显示的内容，数组
     text: {
@@ -9347,7 +9347,343 @@ const props$7 = {
     ...(_n = (_m = index$1.$uv) == null ? void 0 : _m.props) == null ? void 0 : _n.noticeBar
   }
 };
-const props$6 = {
+const button = {
+  props: {
+    lang: String,
+    sessionFrom: String,
+    sendMessageTitle: String,
+    sendMessagePath: String,
+    sendMessageImg: String,
+    showMessageCard: Boolean,
+    appParameter: String,
+    formType: String,
+    openType: String
+  }
+};
+const openType = {
+  props: {
+    openType: String
+  },
+  emits: ["getphonenumber", "getuserinfo", "error", "opensetting", "launchapp", "contact", "chooseavatar", "addgroupapp", "chooseaddress", "subscribe", "login", "im"],
+  methods: {
+    onGetPhoneNumber(event) {
+      this.$emit("getphonenumber", event.detail);
+    },
+    onGetUserInfo(event) {
+      this.$emit("getuserinfo", event.detail);
+    },
+    onError(event) {
+      this.$emit("error", event.detail);
+    },
+    onOpenSetting(event) {
+      this.$emit("opensetting", event.detail);
+    },
+    onLaunchApp(event) {
+      this.$emit("launchapp", event.detail);
+    },
+    onContact(event) {
+      this.$emit("contact", event.detail);
+    },
+    onChooseavatar(event) {
+      this.$emit("chooseavatar", event.detail);
+    },
+    onAgreeprivacyauthorization(event) {
+      this.$emit("agreeprivacyauthorization", event.detail);
+    },
+    onAddgroupapp(event) {
+      this.$emit("addgroupapp", event.detail);
+    },
+    onChooseaddress(event) {
+      this.$emit("chooseaddress", event.detail);
+    },
+    onSubscribe(event) {
+      this.$emit("subscribe", event.detail);
+    },
+    onLogin(event) {
+      this.$emit("login", event.detail);
+    },
+    onIm(event) {
+      this.$emit("im", event.detail);
+    }
+  }
+};
+const props$b = {
+  props: {
+    // 是否细边框
+    hairline: {
+      type: Boolean,
+      default: true
+    },
+    // 按钮的预置样式，info，primary，error，warning，success
+    type: {
+      type: String,
+      default: "info"
+    },
+    // 按钮尺寸，large，normal，small，mini
+    size: {
+      type: String,
+      default: "normal"
+    },
+    // 按钮形状，circle（两边为半圆），square（带圆角）
+    shape: {
+      type: String,
+      default: "square"
+    },
+    // 按钮是否镂空
+    plain: {
+      type: Boolean,
+      default: false
+    },
+    // 是否禁止状态
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    // 是否加载中
+    loading: {
+      type: Boolean,
+      default: false
+    },
+    // 加载中提示文字
+    loadingText: {
+      type: [String, Number],
+      default: ""
+    },
+    // 加载状态图标类型
+    loadingMode: {
+      type: String,
+      default: "spinner"
+    },
+    // 加载图标大小
+    loadingSize: {
+      type: [String, Number],
+      default: 14
+    },
+    // 开放能力，具体请看uniapp稳定关于button组件部分说明
+    // https://uniapp.dcloud.io/component/button
+    openType: {
+      type: String,
+      default: ""
+    },
+    // 用于 <form> 组件，点击分别会触发 <form> 组件的 submit/reset 事件
+    // 取值为submit（提交表单），reset（重置表单）
+    formType: {
+      type: String,
+      default: ""
+    },
+    // 打开 APP 时，向 APP 传递的参数，open-type=launchApp时有效
+    // 只微信小程序、QQ小程序有效
+    appParameter: {
+      type: String,
+      default: ""
+    },
+    // 指定是否阻止本节点的祖先节点出现点击态，微信小程序有效
+    hoverStopPropagation: {
+      type: Boolean,
+      default: true
+    },
+    // 指定返回用户信息的语言，zh_CN 简体中文，zh_TW 繁体中文，en 英文。只微信小程序有效
+    lang: {
+      type: String,
+      default: "en"
+    },
+    // 会话来源，open-type="contact"时有效。只微信小程序有效
+    sessionFrom: {
+      type: String,
+      default: ""
+    },
+    // 会话内消息卡片标题，open-type="contact"时有效
+    // 默认当前标题，只微信小程序有效
+    sendMessageTitle: {
+      type: String,
+      default: ""
+    },
+    // 会话内消息卡片点击跳转小程序路径，open-type="contact"时有效
+    // 默认当前分享路径，只微信小程序有效
+    sendMessagePath: {
+      type: String,
+      default: ""
+    },
+    // 会话内消息卡片图片，open-type="contact"时有效
+    // 默认当前页面截图，只微信小程序有效
+    sendMessageImg: {
+      type: String,
+      default: ""
+    },
+    // 是否显示会话内消息卡片，设置此参数为 true，用户进入客服会话会在右下角显示"可能要发送的小程序"提示，
+    // 用户点击后可以快速发送小程序消息，open-type="contact"时有效
+    showMessageCard: {
+      type: Boolean,
+      default: true
+    },
+    // 额外传参参数，用于小程序的data-xxx属性，通过target.dataset.name获取
+    dataName: {
+      type: String,
+      default: ""
+    },
+    // 节流，一定时间内只能触发一次
+    throttleTime: {
+      type: [String, Number],
+      default: 0
+    },
+    // 按住后多久出现点击态，单位毫秒
+    hoverStartTime: {
+      type: [String, Number],
+      default: 0
+    },
+    // 手指松开后点击态保留时间，单位毫秒
+    hoverStayTime: {
+      type: [String, Number],
+      default: 200
+    },
+    // 按钮文字，之所以通过props传入，是因为slot传入的话
+    // nvue中无法控制文字的样式
+    text: {
+      type: [String, Number],
+      default: ""
+    },
+    // 按钮图标
+    icon: {
+      type: String,
+      default: ""
+    },
+    // 按钮图标大小
+    iconSize: {
+      type: [String, Number],
+      default: ""
+    },
+    // 按钮图标颜色
+    iconColor: {
+      type: String,
+      default: "#000000"
+    },
+    // 按钮颜色，支持传入linear-gradient渐变色
+    color: {
+      type: String,
+      default: ""
+    },
+    // 自定义按钮文本样式
+    customTextStyle: {
+      type: [Object, String],
+      default: ""
+    },
+    ...(_p = (_o = index$1.$uv) == null ? void 0 : _o.props) == null ? void 0 : _p.button
+  }
+};
+const props$a = {
+  props: {
+    // 头像图片路径(不能为相对路径)
+    src: {
+      type: String,
+      default: ""
+    },
+    // 头像形状，circle-圆形，square-方形
+    shape: {
+      type: String,
+      default: "circle"
+    },
+    // 头像尺寸
+    size: {
+      type: [String, Number],
+      default: 40
+    },
+    // 裁剪模式
+    mode: {
+      type: String,
+      default: "scaleToFill"
+    },
+    // 显示的文字
+    text: {
+      type: String,
+      default: ""
+    },
+    // 背景色
+    bgColor: {
+      type: String,
+      default: "#c0c4cc"
+    },
+    // 文字颜色
+    color: {
+      type: String,
+      default: "#fff"
+    },
+    // 文字大小
+    fontSize: {
+      type: [String, Number],
+      default: 18
+    },
+    // 显示的图标
+    icon: {
+      type: String,
+      default: ""
+    },
+    // 显示小程序头像，只对百度，微信，QQ小程序有效
+    mpAvatar: {
+      type: Boolean,
+      default: false
+    },
+    // 是否使用随机背景色
+    randomBgColor: {
+      type: Boolean,
+      default: false
+    },
+    // 加载失败的默认头像(组件有内置默认图片)
+    defaultUrl: {
+      type: String,
+      default: ""
+    },
+    // 如果配置了randomBgColor为true，且配置了此值，则从默认的背景色数组中取出对应索引的颜色值，取值0-19之间
+    colorIndex: {
+      type: [String, Number],
+      // 校验参数规则，索引在0-19之间
+      validator(n2) {
+        return range$1(n2, [0, 19]) || n2 === "";
+      },
+      default: ""
+    },
+    // 组件标识符
+    name: {
+      type: String,
+      default: ""
+    },
+    ...(_r = (_q = index$1.$uv) == null ? void 0 : _q.props) == null ? void 0 : _r.avatar
+  }
+};
+const props$9 = {
+  props: {
+    color: {
+      type: String,
+      default: "#d6d7d9"
+    },
+    // 长度，竖向时表现为高度，横向时表现为长度，可以为百分比，带px单位的值等
+    length: {
+      type: [String, Number],
+      default: "100%"
+    },
+    // 线条方向，col-竖向，row-横向
+    direction: {
+      type: String,
+      default: "row"
+    },
+    // 是否显示细边框
+    hairline: {
+      type: Boolean,
+      default: true
+    },
+    // 线条与上下左右元素的间距，字符串形式，如"30px"、"20px 30px"
+    margin: {
+      type: [String, Number],
+      default: 0
+    },
+    // 是否虚线，true-虚线，false-实线
+    dashed: {
+      type: Boolean,
+      default: false
+    },
+    ...(_t = (_s = index$1.$uv) == null ? void 0 : _s.props) == null ? void 0 : _t.line
+  }
+};
+const props$8 = {
   props: {
     // 是否显示组件
     show: {
@@ -9411,10 +9747,10 @@ const props$6 = {
       type: String,
       default: ""
     },
-    ...(_p = (_o = index$1.$uv) == null ? void 0 : _o.props) == null ? void 0 : _p.loadingIcon
+    ...(_v = (_u = index$1.$uv) == null ? void 0 : _u.props) == null ? void 0 : _v.loadingIcon
   }
 };
-const props$5 = {
+const props$7 = {
   props: {
     // 轮播的长度
     length: {
@@ -9441,10 +9777,10 @@ const props$5 = {
       type: String,
       default: ""
     },
-    ...(_r = (_q = index$1.$uv) == null ? void 0 : _q.props) == null ? void 0 : _r.swiperIndicator
+    ...(_x = (_w = index$1.$uv) == null ? void 0 : _w.props) == null ? void 0 : _x.swiperIndicator
   }
 };
-const props$4 = {
+const props$6 = {
   props: {
     // 是否展示工具条
     show: {
@@ -9481,7 +9817,7 @@ const props$4 = {
       type: String,
       default: ""
     },
-    ...(_t = (_s = index$1.$uv) == null ? void 0 : _s.props) == null ? void 0 : _t.toolbar
+    ...(_z = (_y = index$1.$uv) == null ? void 0 : _y.props) == null ? void 0 : _z.toolbar
   }
 };
 class MPAnimation {
@@ -9596,7 +9932,7 @@ function createAnimation(option, _this) {
   clearTimeout(_this.timer);
   return new MPAnimation(option, _this);
 }
-const props$3 = {
+const props$5 = {
   props: {
     // 显示的内容，字符串
     text: {
@@ -9654,10 +9990,10 @@ const props$3 = {
       type: Boolean,
       default: false
     },
-    ...(_v = (_u = index$1.$uv) == null ? void 0 : _u.props) == null ? void 0 : _v.columnNotice
+    ...(_B = (_A = index$1.$uv) == null ? void 0 : _A.props) == null ? void 0 : _B.columnNotice
   }
 };
-const props$2 = {
+const props$4 = {
   props: {
     // 显示的内容，字符串
     text: {
@@ -9694,10 +10030,197 @@ const props$2 = {
       type: [String, Number],
       default: 80
     },
-    ...(_x = (_w = index$1.$uv) == null ? void 0 : _w.props) == null ? void 0 : _x.rowNotice
+    ...(_D = (_C = index$1.$uv) == null ? void 0 : _C.props) == null ? void 0 : _D.rowNotice
   }
 };
-const props$1 = {
+const value = {
+  computed: {
+    // 经处理后需要显示的值
+    value() {
+      const {
+        text,
+        mode,
+        format,
+        href
+      } = this;
+      if (mode === "price") {
+        if (!/^\d+(\.\d+)?$/.test(text)) {
+          error("金额模式下，text参数需要为金额格式");
+        }
+        if (func(format)) {
+          return format(text);
+        }
+        return priceFormat(text, 2);
+      }
+      if (mode === "date") {
+        !date(text) && error("日期模式下，text参数需要为日期或时间戳格式");
+        if (func(format)) {
+          return format(text);
+        }
+        if (format) {
+          return timeFormat(text, format);
+        }
+        return timeFormat(text, "yyyy-mm-dd");
+      }
+      if (mode === "phone") {
+        if (func(format)) {
+          return format(text);
+        }
+        if (format === "encrypt") {
+          return `${text.substr(0, 3)}****${text.substr(7)}`;
+        }
+        return text;
+      }
+      if (mode === "name") {
+        !(typeof text === "string") && error("姓名模式下，text参数需要为字符串格式");
+        if (func(format)) {
+          return format(text);
+        }
+        if (format === "encrypt") {
+          return this.formatName(text);
+        }
+        return text;
+      }
+      if (mode === "link") {
+        !url(href) && error("超链接模式下，href参数需要为URL格式");
+        return text;
+      }
+      return text;
+    }
+  },
+  methods: {
+    // 默认的姓名脱敏规则
+    formatName(name) {
+      let value2 = "";
+      if (name.length === 2) {
+        value2 = name.substr(0, 1) + "*";
+      } else if (name.length > 2) {
+        let char = "";
+        for (let i = 0, len = name.length - 2; i < len; i++) {
+          char += "*";
+        }
+        value2 = name.substr(0, 1) + char + name.substr(-1, 1);
+      } else {
+        value2 = name;
+      }
+      return value2;
+    }
+  }
+};
+const props$3 = {
+  props: {
+    // 主题颜色
+    type: {
+      type: String,
+      default: ""
+    },
+    // 是否显示
+    show: {
+      type: Boolean,
+      default: true
+    },
+    // 显示的值
+    text: {
+      type: [String, Number],
+      default: ""
+    },
+    // 前置图标
+    prefixIcon: {
+      type: String,
+      default: ""
+    },
+    // 后置图标
+    suffixIcon: {
+      type: String,
+      default: ""
+    },
+    // 文本处理的匹配模式
+    // text-普通文本，price-价格，phone-手机号，name-姓名，date-日期，link-超链接
+    mode: {
+      type: String,
+      default: ""
+    },
+    // mode=link下，配置的链接
+    href: {
+      type: String,
+      default: ""
+    },
+    // 格式化规则
+    format: {
+      type: [String, Function],
+      default: ""
+    },
+    // mode=phone时，点击文本是否拨打电话
+    call: {
+      type: Boolean,
+      default: true
+    },
+    // 小程序的打开方式
+    openType: {
+      type: String,
+      default: ""
+    },
+    // 是否粗体，默认normal
+    bold: {
+      type: Boolean,
+      default: false
+    },
+    // 是否块状
+    block: {
+      type: Boolean,
+      default: false
+    },
+    // 文本显示的行数，如果设置，超出此行数，将会显示省略号
+    lines: {
+      type: [String, Number],
+      default: ""
+    },
+    // 文本颜色
+    color: {
+      type: String,
+      default: "#303133"
+    },
+    // 字体大小
+    size: {
+      type: [String, Number],
+      default: 15
+    },
+    // 图标的样式
+    iconStyle: {
+      type: [Object, String],
+      default: () => ({
+        fontSize: "15px"
+      })
+    },
+    // 文字装饰，下划线，中划线等，可选值 none|underline|line-through
+    decoration: {
+      type: String,
+      default: "none"
+    },
+    // 外边距，对象、字符串，数值形式均可
+    margin: {
+      type: [Object, String, Number],
+      default: 0
+    },
+    // 文本行高
+    lineHeight: {
+      type: [String, Number],
+      default: ""
+    },
+    // 文本对齐方式，可选值left|center|right
+    align: {
+      type: String,
+      default: "left"
+    },
+    // 文字换行，可选值break-word|normal|anywhere
+    wordWrap: {
+      type: String,
+      default: "normal"
+    },
+    ...(_F = (_E = index$1.$uv) == null ? void 0 : _E.props) == null ? void 0 : _F.text
+  }
+};
+const props$2 = {
   props: {
     // 是否显示遮罩
     show: {
@@ -9719,10 +10242,10 @@ const props$1 = {
       type: [String, Number],
       default: 0.5
     },
-    ...(_z = (_y = index$1.$uv) == null ? void 0 : _y.props) == null ? void 0 : _z.overlay
+    ...(_H = (_G = index$1.$uv) == null ? void 0 : _G.props) == null ? void 0 : _H.overlay
   }
 };
-const props = {
+const props$1 = {
   props: {
     bgColor: {
       type: String,
@@ -9730,13 +10253,55 @@ const props = {
     }
   }
 };
+const props = {
+  props: {
+    // 文字颜色
+    color: {
+      type: String,
+      default: ""
+    },
+    // 字体大小，单位px
+    fontSize: {
+      type: [String, Number],
+      default: 14
+    },
+    // 是否显示下划线
+    underLine: {
+      type: Boolean,
+      default: false
+    },
+    // 要跳转的链接
+    href: {
+      type: String,
+      default: ""
+    },
+    // 小程序中复制到粘贴板的提示语
+    mpTips: {
+      type: String,
+      default: "链接已复制，请在浏览器打开"
+    },
+    // 下划线颜色
+    lineColor: {
+      type: String,
+      default: ""
+    },
+    // 超链接的问题，不使用slot形式传入，是因为nvue下无法修改颜色
+    text: {
+      type: String,
+      default: ""
+    },
+    ...(_J = (_I = index$1.$uv) == null ? void 0 : _I.props) == null ? void 0 : _J.link
+  }
+};
 exports._export_sfc = _export_sfc;
+exports.button = button;
 exports.colorGradient = colorGradient;
 exports.createAnimation = createAnimation;
 exports.createSSRApp = createSSRApp;
 exports.defineComponent = defineComponent;
 exports.e = e;
 exports.f = f;
+exports.getCurrentInstance = getCurrentInstance;
 exports.icons = icons;
 exports.index = index$1;
 exports.inject = inject;
@@ -9748,19 +10313,25 @@ exports.onHide = onHide;
 exports.onLaunch = onLaunch;
 exports.onReady = onReady;
 exports.onShow = onShow;
+exports.openType = openType;
 exports.p = p;
-exports.props = props$b;
-exports.props$1 = props$a;
-exports.props$10 = props$1;
-exports.props$11 = props;
-exports.props$2 = props$9;
-exports.props$3 = props$8;
-exports.props$4 = props$7;
-exports.props$5 = props$6;
-exports.props$6 = props$5;
-exports.props$7 = props$4;
-exports.props$8 = props$3;
-exports.props$9 = props$2;
+exports.props = props$g;
+exports.props$1 = props$f;
+exports.props$10 = props$6;
+exports.props$11 = props$5;
+exports.props$12 = props$4;
+exports.props$13 = props$3;
+exports.props$14 = props$2;
+exports.props$15 = props$1;
+exports.props$16 = props;
+exports.props$2 = props$e;
+exports.props$3 = props$d;
+exports.props$4 = props$c;
+exports.props$5 = props$b;
+exports.props$6 = props$a;
+exports.props$7 = props$9;
+exports.props$8 = props$8;
+exports.props$9 = props$7;
 exports.provide = provide;
 exports.reactive = reactive;
 exports.ref = ref;
@@ -9768,4 +10339,6 @@ exports.resolveComponent = resolveComponent;
 exports.s = s;
 exports.sr = sr;
 exports.t = t;
+exports.throttle = throttle;
 exports.uvUI = uvUI;
+exports.value = value;

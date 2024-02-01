@@ -40,7 +40,7 @@
 	// #endif  
 	// #ifdef H5 || APP
 	globalData.menuButtonHeight = 32
-		globalData.statusBarHeight = statusBarHeight as number
+	globalData.statusBarHeight = statusBarHeight as number
 	globalData.navigationBarHeight = platform === 'android' ? 48 : 40
 	globalData.navigationBarAndStatusBarHeight = globalData.navigationBarHeight + (globalData.statusBarHeight as number);
 	// #endif

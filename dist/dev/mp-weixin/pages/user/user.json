@@ -1,5 +1,10 @@
 {
-  "navigationBarTitleText": "",
+  "navigationBarTitleText": "个人中心",
   "enablePullDownRefresh": false,
-  "usingComponents": {}
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "uv-icon": "../../node-modules/@climblee/uv-ui/components/uv-icon/uv-icon",
+    "uv-avatar": "../../node-modules/@climblee/uv-ui/components/uv-avatar/uv-avatar",
+    "uv-image": "../../node-modules/@climblee/uv-ui/components/uv-image/uv-image"
+  }
 }

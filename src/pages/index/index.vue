@@ -32,13 +32,13 @@
 		<view class="tabs-container">
 			<view class="tabs-scroll">
 				<view class="tabs">
-					<view class="tab" @click="go('/pages/creative/creative')"><uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" width="80px"
+					<view class="tab" @click="go('/pages/creative/creative')"><uv-image src="https://cdn.uviewui.com/uview/album/4.jpg" width="80px"
 							height="80px"></uv-image>
 						文创纪念</view>
-					<view class="tab"><uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" width="80px"
+					<view class="tab"><uv-image src="https://cdn.uviewui.com/uview/album/5.jpg" width="80px"
 							height="80px"></uv-image>
 						在线拍卖</view>
-					<view class="tab" @click="go('/pages/map/map')"><uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" width="80px"
+					<view class="tab" @click="go('/pages/map/map')"><uv-image src="https://cdn.uviewui.com/uview/album/6.jpg" width="80px"
 							height="80px"></uv-image>
 						文旅打卡游</view>
 
@@ -56,16 +56,16 @@
 
 		<view class="showcase">
 			<view class="showcase-list">
-				<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="100%"
+				<uv-image src="https://cdn.uviewui.com/uview/album/2.jpg" radius="5" width="100%"
 					height="80px"></uv-image>
 			</view>
 			<view class="showcase-flex">
 				<view class="showcase-list">
-					<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="100%"
+					<uv-image src="https://cdn.uviewui.com/uview/album/3.jpg" radius="5" width="100%"
 						height="80px"></uv-image>
 				</view>
 				<view class="showcase-list">
-					<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="100%"
+					<uv-image src="https://cdn.uviewui.com/uview/album/4.jpg" radius="5" width="100%"
 						height="80px"></uv-image>
 				</view>
 			</view>
@@ -76,7 +76,7 @@
 				精选推荐
 			</view>
 			<view class="recommends">
-				<view class="recommends-list">
+				<view class="recommends-list" @click="go('/pages/details/details')">
 					<view class="recommends-list-top">
 						<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="100%"
 							height="100px"></uv-image>
@@ -183,7 +183,7 @@
 				</view>
 				<view class="recommends-list">
 					<view class="recommends-list-top">
-						<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="100%"
+						<uv-image src="https://cdn.uviewui.com/uview/album/7.jpg" radius="5" width="100%"
 							height="100px"></uv-image>
 						<view class="recommends-list-tag">
 							金顶纪念照
@@ -208,7 +208,7 @@
 		<view class="container">
 			<view class="container-list">
 				<view class="recommends-list-top">
-					<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="100%"
+					<uv-image src="https://cdn.uviewui.com/uview/album/8.jpg" radius="5" width="100%"
 						height="100px"></uv-image>
 					<view class="recommends-list-tag">
 						金顶纪念照
@@ -231,7 +231,7 @@
 			</view>
 			<view class="container-list">
 				<view class="recommends-list-top">
-					<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="100%"
+					<uv-image src="https://cdn.uviewui.com/uview/album/9.jpg" radius="5" width="100%"
 						height="100px"></uv-image>
 					<view class="recommends-list-tag">
 						金顶纪念照
@@ -253,7 +253,7 @@
 
 			<view class="container-list">
 				<view class="recommends-list-top">
-					<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="100%"
+					<uv-image src="https://cdn.uviewui.com/uview/album/10.jpg" radius="5" width="100%"
 						height="100px"></uv-image>
 					<view class="recommends-list-tag">
 						金顶纪念照
@@ -275,7 +275,7 @@
 
 			<view class="container-list">
 				<view class="recommends-list-top">
-					<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="100%"
+					<uv-image src="https://cdn.uviewui.com/uview/album/6.jpg" radius="5" width="100%"
 						height="100px"></uv-image>
 					<view class="recommends-list-tag">
 						金顶纪念照
@@ -299,7 +299,7 @@
 
 			<view class="container-list">
 				<view class="recommends-list-top">
-					<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="100%"
+					<uv-image src="https://cdn.uviewui.com/uview/album/7.jpg" radius="5" width="100%"
 						height="100px"></uv-image>
 					<view class="recommends-list-tag">
 						金顶纪念照
@@ -319,6 +319,15 @@
 				</view>
 			</view>
 
+		</view>
+		
+		<view class="login">
+			<view class="login-main">
+				<uv-image src="https://cdn.uviewui.com/uview/album/1.jpg" radius="5" width="40px"
+					height="40px"></uv-image>
+				立即登录,开启数旅生活
+			</view>
+			<uv-button text="登录" @click="go('/pages/login/login')"></uv-button>
 		</view>
 	</view>
 </template>
@@ -647,5 +656,21 @@
 
 		}
 	}
-
+.login{
+	    position: fixed;
+	    bottom: 10%;
+	    left: 0;
+	    right: 0;
+	    display: flex;
+	    background: #fff;
+	    justify-content: space-around;
+	    padding: 5px;
+	    align-items: center;
+		.login-main{
+			display: flex;
+  align-items: center;
+			justify-content: space-around;
+			
+		}
+}
 </style>

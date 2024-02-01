@@ -6,15 +6,17 @@ if (!Array) {
   const _easycom_uv_picker2 = common_vendor.resolveComponent("uv-picker");
   const _easycom_uv_image2 = common_vendor.resolveComponent("uv-image");
   const _easycom_uv_notice_bar2 = common_vendor.resolveComponent("uv-notice-bar");
-  (_easycom_uv_icon2 + _easycom_uv_swiper2 + _easycom_uv_picker2 + _easycom_uv_image2 + _easycom_uv_notice_bar2)();
+  const _easycom_uv_button2 = common_vendor.resolveComponent("uv-button");
+  (_easycom_uv_icon2 + _easycom_uv_swiper2 + _easycom_uv_picker2 + _easycom_uv_image2 + _easycom_uv_notice_bar2 + _easycom_uv_button2)();
 }
 const _easycom_uv_icon = () => "../../node-modules/@climblee/uv-ui/components/uv-icon/uv-icon.js";
 const _easycom_uv_swiper = () => "../../node-modules/@climblee/uv-ui/components/uv-swiper/uv-swiper.js";
 const _easycom_uv_picker = () => "../../node-modules/@climblee/uv-ui/components/uv-picker/uv-picker.js";
 const _easycom_uv_image = () => "../../node-modules/@climblee/uv-ui/components/uv-image/uv-image.js";
 const _easycom_uv_notice_bar = () => "../../node-modules/@climblee/uv-ui/components/uv-notice-bar/uv-notice-bar.js";
+const _easycom_uv_button = () => "../../node-modules/@climblee/uv-ui/components/uv-button/uv-button.js";
 if (!Math) {
-  (_easycom_uv_icon + _easycom_uv_swiper + _easycom_uv_picker + _easycom_uv_image + _easycom_uv_notice_bar)();
+  (_easycom_uv_icon + _easycom_uv_swiper + _easycom_uv_picker + _easycom_uv_image + _easycom_uv_notice_bar + _easycom_uv_button)();
 }
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "index",
@@ -119,18 +121,18 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           keyName: "label"
         }),
         p: common_vendor.p({
-          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          src: "https://cdn.uviewui.com/uview/album/4.jpg",
           width: "80px",
           height: "80px"
         }),
         q: common_vendor.o(($event) => go("/pages/creative/creative")),
         r: common_vendor.p({
-          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          src: "https://cdn.uviewui.com/uview/album/5.jpg",
           width: "80px",
           height: "80px"
         }),
         s: common_vendor.p({
-          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          src: "https://cdn.uviewui.com/uview/album/6.jpg",
           width: "80px",
           height: "80px"
         }),
@@ -147,19 +149,19 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           direction: "column"
         }),
         x: common_vendor.p({
-          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          src: "https://cdn.uviewui.com/uview/album/2.jpg",
           radius: "5",
           width: "100%",
           height: "80px"
         }),
         y: common_vendor.p({
-          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          src: "https://cdn.uviewui.com/uview/album/3.jpg",
           radius: "5",
           width: "100%",
           height: "80px"
         }),
         z: common_vendor.p({
-          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          src: "https://cdn.uviewui.com/uview/album/4.jpg",
           radius: "5",
           width: "100%",
           height: "80px"
@@ -170,12 +172,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           width: "100%",
           height: "100px"
         }),
-        B: common_vendor.p({
-          src: "https://cdn.uviewui.com/uview/album/1.jpg",
-          radius: "5",
-          width: "100%",
-          height: "100px"
-        }),
+        B: common_vendor.o(($event) => go("/pages/details/details")),
         C: common_vendor.p({
           src: "https://cdn.uviewui.com/uview/album/1.jpg",
           radius: "5",
@@ -201,34 +198,50 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           height: "100px"
         }),
         G: common_vendor.p({
-          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          src: "https://cdn.uviewui.com/uview/album/7.jpg",
           radius: "5",
           width: "100%",
           height: "100px"
         }),
         H: common_vendor.p({
-          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          src: "https://cdn.uviewui.com/uview/album/8.jpg",
           radius: "5",
           width: "100%",
           height: "100px"
         }),
         I: common_vendor.p({
-          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          src: "https://cdn.uviewui.com/uview/album/9.jpg",
           radius: "5",
           width: "100%",
           height: "100px"
         }),
         J: common_vendor.p({
-          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          src: "https://cdn.uviewui.com/uview/album/10.jpg",
           radius: "5",
           width: "100%",
           height: "100px"
         }),
         K: common_vendor.p({
-          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          src: "https://cdn.uviewui.com/uview/album/6.jpg",
           radius: "5",
           width: "100%",
           height: "100px"
+        }),
+        L: common_vendor.p({
+          src: "https://cdn.uviewui.com/uview/album/7.jpg",
+          radius: "5",
+          width: "100%",
+          height: "100px"
+        }),
+        M: common_vendor.p({
+          src: "https://cdn.uviewui.com/uview/album/1.jpg",
+          radius: "5",
+          width: "40px",
+          height: "40px"
+        }),
+        N: common_vendor.o(($event) => go("/pages/login/login")),
+        O: common_vendor.p({
+          text: "登录"
         })
       };
     };

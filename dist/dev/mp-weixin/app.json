@@ -1,9 +1,12 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/book/book",
     "pages/user/user",
     "pages/creative/creative",
-    "pages/map/map"
+    "pages/map/map",
+    "pages/details/details",
+    "pages/login/login"
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -18,6 +21,10 @@
         "pagePath": "pages/index/index"
       },
       {
+        "text": "纪念册",
+        "pagePath": "pages/book/book"
+      },
+      {
         "text": "我的",
         "pagePath": "pages/user/user"
       }
@@ -28,5 +35,9 @@
       "desc": "获取用户位置信息"
     }
   },
+  "requiredPrivateInfos": [
+    "getLocation",
+    "chooseLocation"
+  ],
   "usingComponents": {}
 }

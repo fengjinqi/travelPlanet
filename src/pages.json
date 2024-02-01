@@ -14,11 +14,20 @@
 			}
 		},
 		{
-			"path" : "pages/user/user",
+			"path" : "pages/book/book",
 			"style" :
 			{
 				"navigationBarTitleText" : "",
 				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/user/user",
+			"style" :
+			{
+				"navigationBarTitleText" : "个人中心",
+				"enablePullDownRefresh" : false,
+					"navigationStyle": "custom"
 			}
 		},
 		{
@@ -32,6 +41,22 @@
 		},
 		{
 			"path" : "pages/map/map",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/details/details",
+			"style" : 
+			{
+				"navigationBarTitleText" : "商品详情",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/login/login",
 			"style" : 
 			{
 				"navigationBarTitleText" : "",
@@ -51,6 +76,10 @@
 			{
 				"text": "首页",
 				"pagePath": "pages/index/index"
+			},
+			{
+				"text": "纪念册",
+				"pagePath": "pages/book/book"
 			},
 			{
 				"text": "我的",

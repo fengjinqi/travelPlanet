@@ -221,3 +221,19 @@ page {
   display: flex;
   font-size: 14px;
 }
+.login.data-v-83a5a03c {
+  position: fixed;
+  bottom: 10%;
+  left: 0;
+  right: 0;
+  display: flex;
+  background: #fff;
+  justify-content: space-around;
+  padding: 5px;
+  align-items: center;
+}
+.login .login-main.data-v-83a5a03c {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
